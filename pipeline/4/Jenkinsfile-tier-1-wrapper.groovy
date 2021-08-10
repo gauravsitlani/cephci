@@ -9,7 +9,6 @@ def sharedLib
 def test_results = [:]
 def composeInfo = ""
 def tier1Jobs = [
-                    "rhceph-4-tier-1-object",
                     "rhceph-4-tier-1-rbd",
                     "rhceph-4-tier-1-cephfs"
                 ]
@@ -21,7 +20,7 @@ node(nodeName) {
 		stage('Install prereq') {
 		    checkout([
 		        $class: 'GitSCM',
-		        branches: [[name: '*/master']],
+		        branches: [[name: 'refs/remotes/origin/testing_4x_jen']],
 		        doGenerateSubmoduleConfigurations: false,
 		        extensions: [[
 		            $class: 'SubmoduleOption',
