@@ -237,8 +237,7 @@ def sendGChatNotification(def tier){
     def msg= "Run for ${env.composeId}:${tier} is done--testing"
     googlechatnotification(url: "id:rhcephCIGChatRoom",
                            message: msg,
-                           notifySuccess: true,
-                           notifyFailure: true)
+                           notifySuccess: true)
 }
 
 def sendEMail(def subjectPrefix, def test_results, def isStage=true) {
