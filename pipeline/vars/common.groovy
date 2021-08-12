@@ -233,7 +233,8 @@ def fetchEmailBodyAndReceiver(def test_results, def isStage) {
     return ["to_list" : to_list, "jobStatus" : jobStatus, "body" : body]
 }
 
-def sendGChatNotification(def tier){
+def sendGChatNotification(def tier, def test_results, def isStage=true){
+    def params = fetchEmailBodyAndReceiver(test_results, isStage)
     def jobStatus = params["jobStatus"]
     msg= "Status of ${env.composeId}:${tier} is ${jobStatus}"
     googlechatnotification(url: "id:rhcephCIGChatRoom",
