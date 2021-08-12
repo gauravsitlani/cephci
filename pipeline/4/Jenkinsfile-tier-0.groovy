@@ -163,7 +163,7 @@ node(nodeName) {
 
     stage('Publish Results') {
         
-        sharedLib.sendGChatNotification("Tier-0", testResults)
+        sharedLib.sendGChatNotification("Tier-0")
     }
 
 }
