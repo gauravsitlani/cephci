@@ -132,7 +132,7 @@ node(nodeName) {
         parallel functionalityStages
     }
 
-    stage('Publish Results') {
+    post {
         
         sharedLib.sendGChatNotification("Tier-0")
     }
