@@ -234,7 +234,7 @@ def fetchEmailBodyAndReceiver(def test_results, def isStage) {
 }
 
 def sendGChatNotification(){
-    googlechatnotification(url: "id: rhcephCIGChatRoom"},
+    googlechatnotification(url: "id: rhcephCIGChatRoom",
                            message: "testing")
 }
 
