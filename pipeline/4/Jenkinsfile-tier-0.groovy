@@ -161,44 +161,9 @@ node(nodeName) {
         defaultRHEL7BaseUrl = sharedLib.getBaseUrl("rhel-7")
     }
 
-    if ( ! cvp ) {
-        timeout(unit: "HOURS", time: 2) {
-            parallel rpmStages
-        }
-    }
-
-    timeout(unit: "HOURS", time: 2) {
-        parallel containerStages
-    }
-
-    timeout(unit: "HOURS", time: 2) {
-        parallel functionalityStages
-    }
-
     stage('Publish Results') {
-        if (cvp) {
-            sharedLib.sendEMail("RHCS CVP", test_results)
-            return
-        }
-        sharedLib.sendEMail("Tier-0", test_results)
-        if ( ! (1 in test_results.values()) ){
-           sharedLib.postLatestCompose()
-           sharedLib.sendUMBMessage("Tier0TestingDone")
-
-           // RHEL7 Tier-0
-           def build = sharedLib.getRHBuild("rhel-7")
-           def rh7Tier0Json = "RHCEPH-${build}-tier0.json"
-
-           def rh7Compose = sharedLib.getPlatformComposeMap("rhel-7")
-           def composeInfo = [
-               "compose_id" : rh7Compose.compose_id,
-               "compose_url" : rh7Compose.compose_url,
-               "repository" : sharedLib.getRepository()
-           ]
-           def payload = writeJSON returnText: true, json: composeInfo
-
-           sharedLib.postCompose(payload, rh7Tier0Json)
-        }
+        
+        sharedLib.sendGChatNotification()
     }
 
 }
