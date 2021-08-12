@@ -234,7 +234,7 @@ def fetchEmailBodyAndReceiver(def test_results, def isStage) {
 }
 
 def sendGChatNotification(def tier){
-    msg= "Run for ${env.composeId}:${tier} is done--testing"
+    def msg= "Run for ${env.composeId}:${tier} is done--testing"
     googlechatnotification(url: "id:rhcephCIGChatRoom",
                            message: ${msg},
                            notifySuccess: true,
