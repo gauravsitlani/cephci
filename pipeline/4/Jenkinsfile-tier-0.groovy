@@ -89,38 +89,6 @@ def functionalityStages = [ 'object': {
                                     test_results["Tier-0 RGW verification"] = rc
                                 }
                             }
-                        },
-                        'block': {
-                            stage('Block suite') {
-                                withEnv([
-                                    "osVersion=RHEL-8",
-                                    "sutVMConf=conf/inventory/rhel-8.4-server-x86_64-medlarge.yaml",
-                                    "sutConf=conf/${cephVersion}/rbd/tier_0_rbd.yaml",
-                                    "testSuite=suites/${cephVersion}/rbd/tier_0_rbd.yaml",
-                                    "containerized=false",
-                                    "addnArgs=--post-results --log-level DEBUG"
-                                ]) {
-                                    rc = sharedLib.runTestSuite()
-                                    test_results["Tier-0 RBD verification"] = rc
-                                }
-                            }
-                        },
-                        'cephfs': {
-                            stage('Cephfs Suite') {
-                                withEnv([
-                                    "osVersion=RHEL-7",
-                                    "sutVMConf=conf/inventory/rhel-7.9-server-x86_64.yaml",
-                                    "sutConf=conf/${cephVersion}/cephfs/tier_0_fs.yaml",
-                                    "testSuite=suites/${cephVersion}/cephfs/tier_0_fs.yaml",
-                                    "containerized=false",
-                                    "addnArgs=--post-results --log-level debug",
-                                    "composeUrl=${defaultRHEL7BaseUrl}",
-                                    "rhcephVersion=${defaultRHEL7Build}"
-                                ]) {
-                                    rc = sharedLib.runTestSuite()
-                                    test_results["Tier-0 CephFS verification"] = rc
-                                }
-                            }
                         }]
 
 // Pipeline script entry point
@@ -159,6 +127,9 @@ node(nodeName) {
         // Gather the RHEL 7 latest compose information
         defaultRHEL7Build = sharedLib.getRHBuild("rhel-7")
         defaultRHEL7BaseUrl = sharedLib.getBaseUrl("rhel-7")
+    }
+    timeout(unit: "HOURS", time: 2) {
+        parallel functionalityStages
     }
 
     stage('Publish Results') {
