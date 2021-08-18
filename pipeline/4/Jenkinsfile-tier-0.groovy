@@ -128,19 +128,13 @@ node(nodeName) {
         defaultRHEL7Build = sharedLib.getRHBuild("rhel-7")
         defaultRHEL7BaseUrl = sharedLib.getBaseUrl("rhel-7")
     }
-    timeout(unit: "HOURS", time: 2) {
-        parallel functionalityStages
-    }
+//     timeout(unit: "HOURS", time: 2) {
+//         parallel functionalityStages
+//     }
 
-    post {
-          always {
-            currentBuild.result = currentBuild.currentResult
-            def msg= "Run for ${env.composeId}:${tier} is done--testing"
-            googlechatnotification(url: "id:rhcephCIGChatRoom",
-                                   message: msg,
-                                   notifySuccess: true,
-                                   notifyFailure: true)
-          }
+    stage('Publish Results') {
+        
+        sharedLib.sendGChatNotification("Tier-0", test_results)
     }
 
 }
