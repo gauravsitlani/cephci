@@ -128,9 +128,9 @@ node(nodeName) {
         defaultRHEL7Build = sharedLib.getRHBuild("rhel-7")
         defaultRHEL7BaseUrl = sharedLib.getBaseUrl("rhel-7")
     }
-//     timeout(unit: "HOURS", time: 2) {
-//         parallel functionalityStages
-//     }
+    timeout(unit: "HOURS", time: 2) {
+        parallel functionalityStages
+    }
 
     stage('Publish Results') {
         
