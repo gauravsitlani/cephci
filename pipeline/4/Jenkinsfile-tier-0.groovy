@@ -133,8 +133,14 @@ node(nodeName) {
     }
 
     post {
-        
-        sharedLib.sendGChatNotification("Tier-0")
+          always {
+            currentBuild.result = currentBuild.currentResult
+            def msg= "Run for ${env.composeId}:${tier} is done--testing"
+            googlechatnotification(url: "id:rhcephCIGChatRoom",
+                                   message: msg,
+                                   notifySuccess: true,
+                                   notifyFailure: true)
+          }
     }
 
 }
