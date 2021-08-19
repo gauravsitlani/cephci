@@ -134,7 +134,7 @@ node(nodeName) {
 
     stage('Publish Results') {
         
-        sharedLib.sendGChatNotification("Tier-0", test_results)
+        sharedLib.sendGChatNotification("Tier-0")
     }
 
 }
