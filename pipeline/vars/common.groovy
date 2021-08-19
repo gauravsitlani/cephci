@@ -454,6 +454,11 @@ def getCIMessageMap() {
     return compose
 }
 
+def getCephVersion(){
+    def compose = getCIMessageMap()
+    print compose
+    }
+
 def getRHCSVersion() {
     /*
         Returns the RHCEPH version from the compose ID in CI_MESSAGE.
