@@ -118,23 +118,27 @@ node(nodeName) {
             sharedLib.prepareNode()
         }
     }
-
-    stage('Set CVP Variable') {
-        cvp = sharedLib.getCvpVariable()
+    
+    stage('Testing') {
+        sharedLib.getCephVersion()
     }
 
-    stage('Set RHEL7 vars') {
-        // Gather the RHEL 7 latest compose information
-        defaultRHEL7Build = sharedLib.getRHBuild("rhel-7")
-        defaultRHEL7BaseUrl = sharedLib.getBaseUrl("rhel-7")
-    }
-    timeout(unit: "HOURS", time: 2) {
-        parallel functionalityStages
-    }
+//     stage('Set CVP Variable') {
+//         cvp = sharedLib.getCvpVariable()
+//     }
 
-    stage('Publish Results') {
+//     stage('Set RHEL7 vars') {
+//         // Gather the RHEL 7 latest compose information
+//         defaultRHEL7Build = sharedLib.getRHBuild("rhel-7")
+//         defaultRHEL7BaseUrl = sharedLib.getBaseUrl("rhel-7")
+//     }
+//     timeout(unit: "HOURS", time: 2) {
+//         parallel functionalityStages
+//     }
+
+//     stage('Publish Results') {
         
-        sharedLib.sendGChatNotification("Tier-0")
-    }
+//         sharedLib.sendGChatNotification("Tier-0")
+//     }
 
 }
