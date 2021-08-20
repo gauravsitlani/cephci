@@ -120,8 +120,10 @@ node(nodeName) {
     }
     
     stage('Testing') {
-        def result = sharedLib.fetchMajorMinorOSVersion("compose")
-        println result
+        sharedLib.fetchCephVersion()
+//         def result = sharedLib.fetchMajorMinorOSVersion("compose")
+//         println result
+
     }
 
 //     stage('Set CVP Variable') {
