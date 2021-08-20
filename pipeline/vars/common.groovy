@@ -5,7 +5,7 @@
 
 import groovy.json.JsonSlurper
 
-import groovyx.net.http.HTTPBuilder
+import org.jsoup.Jsoup
 
 def prepareNode() {
     /*
@@ -70,17 +70,20 @@ def fetchMajorMinorOSVersion(def build_type){
 }
 
 def fetchCephVersion(){
+    def base_url = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0/compose/Tools/x86_64/os/Packages/"
+    def document = Jsoup.connect(url).get()
+    println document
 //     def client = new RESTClient(base_url)
 //     def resp = client.get( path : '/compose/Tools/x86_64/os/Packages/' ) 
 //     println resp.getData()
-    def base_url = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0"
-    def http = new HTTPBuilder(base_url)
-    http.get(   path : '/compose/Tools/x86_64/os/Packages/',
-                contentType : 'application/json'
-            ) { resp, reader ->
+//     def base_url = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0"
+//     def http = new HTTPBuilder(base_url)
+//     http.get(   path : '/compose/Tools/x86_64/os/Packages/',
+//                 contentType : 'application/json'
+//             ) { resp, reader ->
 
-        // inside reader you've your json object in `net.sf.json.JSONObject` instance
-        println reader}
+//         // inside reader you've your json object in `net.sf.json.JSONObject` instance
+//         println reader}
     
 }
 
