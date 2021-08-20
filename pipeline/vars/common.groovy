@@ -71,7 +71,7 @@ def fetchMajorMinorOSVersion(def build_type){
 
 def fetchCephVersion(){
     def base_url = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0/compose/Tools/x86_64/os/Packages/"
-    def document = Jsoup.connect(url).get()
+    def document = Jsoup.connect(base_url).get()
     println document
 //     def client = new RESTClient(base_url)
 //     def resp = client.get( path : '/compose/Tools/x86_64/os/Packages/' ) 
