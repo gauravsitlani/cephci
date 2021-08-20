@@ -5,6 +5,8 @@
 
 import groovy.json.JsonSlurper
 
+import groovyx.net.http.RESTClient
+
 def prepareNode() {
     /*
         Installs the required packages needed by the Jenkins node to
@@ -65,6 +67,13 @@ def fetchMajorMinorOSVersion(def build_type){
     }
     return ["major_ver":major_ver, "minor_ver":minor_ver, "os_ver":os_ver]
 
+}
+
+def fetchCephVersion(def base_url){
+    def client = new RESTClient(base_url)
+    def resp = client.get( path : '/compose/Tools/x86_64/os/Packages/' ) 
+    println resp.getData()
+    
 }
 
 def getCvpVariable() {
