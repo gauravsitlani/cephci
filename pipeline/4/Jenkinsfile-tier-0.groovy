@@ -120,7 +120,7 @@ node(nodeName) {
     }
     
     stage('Testing') {
-        sharedLib.getCephVersion()
+        sharedLib.fetchMajorMinorOSVersion("compose")
     }
 
 //     stage('Set CVP Variable') {
