@@ -73,7 +73,7 @@ def fetchCephVersion(){
     def base_url = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0/compose/Tools/x86_64/os/Packages/"
     def document = Jsoup.connect(base_url).get().toString()
     println document
-    ducument.findAll(/"ceph-common-([\w.-]+)\.([\w.-]+)"/) {  
+    document.findAll(/"ceph-common-([\w.-]+)\.([\w.-]+)"/) {  
         println it
     }
 }
