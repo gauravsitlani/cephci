@@ -37,6 +37,36 @@ def prepareNode() {
     sh (script: "bash ${env.WORKSPACE}/pipeline/vars/node_bootstrap.bash")
 }
 
+def fetchMajorMinorOSVersion(def build_type){
+    def cimsg = getCIMessageMap()
+    def major_ver
+    def minor_ver
+    def os_ver
+
+    if (build_type == 'compose' || build_type == 'osbs') {
+        major_ver = cimsg.compose_id.substring(7,8)
+        minor_ver = cimsg.compose_id.substring(9,10)
+        os_ver = cimsg.compose_id.substring(11,17).toLowerCase()
+    }
+    if (build_type == 'cvp'){
+        major_ver = cimsg.artifact.brew_build_target.substring(5,6)
+        minor_ver = cimsg.artifact.brew_build_target.substring(7,8)
+        os_ver = cimsg.artifact.brew_build_target.substring(9,15).toLowerCase()
+    }
+    if (build_type == 'rc-compose'){
+        major_ver = cimsg.compose-id.substring(7,8)
+        minor_ver = cimsg.compose-id.substring(9,10)
+        os_ver = cimsg.compose-id.substring(11,17).toLowerCase()
+    }
+    if (build_type == 'rc-osbs'){
+        major_ver = cimsg.tag.name.substring(5,6)
+        minor_ver = cimsg.tag.name.substring(7,8)
+        os_ver = cimsg.tag.name.substring(9,15).toLowerCase()
+    }
+    return ["major_ver":major_ver, "minor_ver":minor_ver, "os_ver":os_ver]
+
+}
+
 def getCvpVariable() {
     /*
         Returns the cvp variable after processing the CI message
