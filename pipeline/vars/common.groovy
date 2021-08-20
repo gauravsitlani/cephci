@@ -69,15 +69,15 @@ def fetchMajorMinorOSVersion(def build_type){
 
 }
 
-def fetchCephVersion(){
-    def base_url = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0/compose/Tools/x86_64/os/Packages/"
+def fetchCephVersion(def base_url){
+    base_url += "/compose/Tools/x86_64/os/Packages/"
+    println base_url
     def document = Jsoup.connect(base_url).get().toString()
     def ceph_ver = document.findAll(/"ceph-common-([\w.-]+)\.([\w.-]+)"/)[0].findAll(/([\d]+)\.([\d]+)\.([\d]+)\-([\d]+)/)
     println ceph_ver
     return ceph_ver
 }
 
-def
 
 def getCvpVariable() {
     /*
