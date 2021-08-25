@@ -99,11 +99,14 @@ def setLock(def major_ver, def minor_ver){
         println "RHCEPH-${major_ver}.${minor_ver}.lock does not exist."
         sh(returnStatus: true, script: "touch ${lock_file}")
     }
-    sleep(600000)
-    def lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
-    if (lockFilePresent == 0) {
+    else{
+        sleep(600000)
+        def lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
+        if (lockFilePresent == 0) {
         error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.."
+        }
     }
+    
 
 }
 
