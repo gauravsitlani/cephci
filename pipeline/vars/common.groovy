@@ -78,6 +78,31 @@ def fetchCephVersion(def base_url){
     return ceph_ver
 }
 
+def setLock(def major_ver, def minor_ver){
+    def defaultFileDir = "/ceph/cephci-jenkins/latest-rhceph-container-info"
+    def lock_file = "${defaultFileDir}/RHCEPH-${major_ver}.${minor_ver}.lock"
+    def lockFileExists = sh (returnStatus: true, script: "ls -l ${lock_file}")
+    if (lockFileExists != 0) {
+        println "RHCEPH-${major_ver}.${minor_ver}.lock does not exist."
+        sh(returnStatus: true, script: "touch ${lock_file}")
+    }
+    sleep(600000)
+    def lockFileExists = sh (returnStatus: true, script: "ls -l ${lock_file}")
+    if (lockFileExists == 0) {
+        error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.."
+    }
+
+}
+
+def unSetLock(def major_ver, def minor_ver){
+    def defaultFileDir = "/ceph/cephci-jenkins/latest-rhceph-container-info"
+    def lock_file = "${defaultFileDir}/RHCEPH-${major_ver}.${minor_ver}.lock"
+    def lockFileExists = sh (returnStatus: true, script: "ls -l ${lock_file}")
+    if (lockFileExists == 0) {
+        sh(returnStatus: true, script: "rm -rf ${lock_file}")
+    }
+}
+
 
 def getCvpVariable() {
     /*
