@@ -122,8 +122,8 @@ node(nodeName) {
     stage('Testing') {
         def result = sharedLib.getCIMessageMap()
         println result
-//         def base = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0"
-//         sharedLib.fetchCephVersion(base)
+        def base = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0"
+        sharedLib.fetchCephVersion(base)
 //         def result = sharedLib.fetchMajorMinorOSVersion("compose")
 //         println result
 
