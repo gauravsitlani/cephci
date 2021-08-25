@@ -119,6 +119,7 @@ def setLock(def major_ver, def minor_ver){
         while((System.currentTimeMillis()-startTime)<600000){
             lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
             if (lockFilePresent != 0) {
+                sh(script: "touch ${lock_file}")
                 return
                 }
         }
@@ -129,10 +130,7 @@ def setLock(def major_ver, def minor_ver){
 def unSetLock(def major_ver, def minor_ver){
     def defaultFileDir = "/ceph/cephci-jenkins/latest-rhceph-container-info"
     def lock_file = "${defaultFileDir}/RHCEPH-${major_ver}.${minor_ver}.lock"
-    def lockFileExists = sh (returnStatus: true, script: "ls -l ${lock_file}")
-    if (lockFileExists == 0) {
-        sh(returnStatus: true, script: "rm -rf ${lock_file}")
-    }
+    sh(returnStatus: true, script: "rm -f ${lock_file}"
 }
 
 
