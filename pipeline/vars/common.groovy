@@ -488,11 +488,9 @@ def getCIMessageMap() {
     */
     def ciMessage = "${params.CI_MESSAGE}" ?: ""
     if (! ciMessage?.trim() ) {
-        error "The CI_MESSAGE has not been provided"
+        return [:]
     }
-
     def compose = readJSON text: "${params.CI_MESSAGE}"
-
     return compose
 }
 
