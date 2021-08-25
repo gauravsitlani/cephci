@@ -127,8 +127,8 @@ node(nodeName) {
         def result = sharedLib.fetchMajorMinorOSVersion("compose")
 //         println result
 //         println result.major_version
-//         sharedLib.setLock(result.major_version, result.minor_version)
-        sharedLib.unSetLock(result.major_version, result.minor_version)
+        sharedLib.setLock(result.major_version, result.minor_version)
+//         sharedLib.unSetLock(result.major_version, result.minor_version)
 
     }
 
