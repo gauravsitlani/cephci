@@ -3,7 +3,6 @@
     Common groovy methods that can be reused by the pipeline jobs.
 */
 
-import groovy.json.JsonSlurper
 
 import org.jsoup.Jsoup
 
