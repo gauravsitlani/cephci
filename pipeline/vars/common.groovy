@@ -6,6 +6,18 @@
 
 import org.jsoup.Jsoup
 
+def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins/latest-rhceph-container-info") {
+    /*
+        Read the JSON file and returns a map object
+    */
+    def yamlfileExists = sh (returnStatus: true, script: "ls -l ${location}/${yamlFile}")
+    if (yamlfileExists != 0) {
+        println "File ${location}/${yamlFile} does not exist."
+        return [:]
+    }
+    return readYAML file: ${location}/${yamlFile}
+}
+
 def prepareNode() {
     /*
         Installs the required packages needed by the Jenkins node to
