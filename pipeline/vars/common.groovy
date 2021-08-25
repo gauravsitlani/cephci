@@ -15,7 +15,8 @@ def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins") {
         println "File ${location}/${yamlFile} does not exist."
         return [:]
     }
-    return readYAML file: ${location}/${yamlFile}
+    def props = readYaml file: location/yamlFile
+    return props
 }
 
 def prepareNode() {
