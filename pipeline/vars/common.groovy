@@ -6,11 +6,10 @@
 
 import org.jsoup.Jsoup
 
-def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins") {
+def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins/latest-rhceph-container-info") {
     /*
         Read the JSON file and returns a map object
     */
-//     def defaultFileDir = "/ceph/cephci-jenkins/testing.yaml"
     def yamlfileExists = sh (returnStatus: true, script: "ls -l ${location}/${yamlFile}")
     if (yamlfileExists != 0) {
         println "File ${location}/${yamlFile} does not exist."
@@ -105,22 +104,25 @@ def fetchCephVersion(def base_url){
 }
 
 def setLock(def major_ver, def minor_ver){
+    /*
+        create a lock file
+    */
     def defaultFileDir = "/ceph/cephci-jenkins/latest-rhceph-container-info"
     def lock_file = "${defaultFileDir}/RHCEPH-${major_ver}.${minor_ver}.lock"
     def lockFileExists = sh (returnStatus: true, script: "ls -l ${lock_file}")
     if (lockFileExists != 0) {
         println "RHCEPH-${major_ver}.${minor_ver}.lock does not exist."
-        sh(returnStatus: true, script: "touch ${lock_file}")
+        sh(script: "touch ${lock_file}")
     }
     else{
-        sleep(600)
-        def lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
-        if (lockFilePresent == 0) {
-        error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.."
+        def startTime = System.currentTimeMillis()
+        while((System.currentTimeMillis()-startTime)<600000){
+            lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
+            if (lockFilePresent != 0) {
+                return
+                }
         }
-    }
-    
-
+        error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.."
 }
 
 def unSetLock(def major_ver, def minor_ver){
