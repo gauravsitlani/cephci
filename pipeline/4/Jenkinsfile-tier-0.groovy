@@ -126,7 +126,8 @@ node(nodeName) {
 //         sharedLib.fetchCephVersion(base)
         def result = sharedLib.fetchMajorMinorOSVersion("compose")
         println result
-        sharedLib.setLock(result["major_ver"], result["minor_ver"])
+        println result.major_version
+        sharedLib.setLock(result.major_version, result.minor_version)
 
     }
 
