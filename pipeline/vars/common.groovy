@@ -130,7 +130,7 @@ def setLock(def major_ver, def minor_ver){
 def unSetLock(def major_ver, def minor_ver){
     def defaultFileDir = "/ceph/cephci-jenkins/latest-rhceph-container-info"
     def lock_file = "${defaultFileDir}/RHCEPH-${major_ver}.${minor_ver}.lock"
-    sh(returnStatus: true, script: "rm -f ${lock_file}"
+    sh(script: "rm -f ${lock_file}")
 }
 
 
