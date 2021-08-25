@@ -6,7 +6,7 @@
 
 import org.jsoup.Jsoup
 
-def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins/latest-rhceph-container-info") {
+def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins") {
     /*
         Read the JSON file and returns a map object
     */
