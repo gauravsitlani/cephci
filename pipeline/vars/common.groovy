@@ -123,6 +123,7 @@ def setLock(def major_ver, def minor_ver){
                 }
         }
         error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.."
+    }
 }
 
 def unSetLock(def major_ver, def minor_ver){
