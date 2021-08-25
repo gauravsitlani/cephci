@@ -40,33 +40,43 @@ def prepareNode() {
 }
 
 def fetchMajorMinorOSVersion(def build_type){
+    /*
+        method accepts build_type as an input and
+        Returns RH-CEPH major version, minor version and OS platform based on build_type
+        different build_type supported: compose, osbs, cvp, rc-compose, rc-osbs
+
+    */
     def cimsg = getCIMessageMap()
     def major_ver
     def minor_ver
-    def os_ver
+    def platform
 
     if (build_type == 'compose' || build_type == 'osbs') {
         major_ver = cimsg.compose_id.substring(7,8)
         minor_ver = cimsg.compose_id.substring(9,10)
-        os_ver = cimsg.compose_id.substring(11,17).toLowerCase()
+        platform = cimsg.compose_id.substring(11,17).toLowerCase()
     }
     if (build_type == 'cvp'){
         major_ver = cimsg.artifact.brew_build_target.substring(5,6)
         minor_ver = cimsg.artifact.brew_build_target.substring(7,8)
-        os_ver = cimsg.artifact.brew_build_target.substring(9,15).toLowerCase()
+        platform = cimsg.artifact.brew_build_target.substring(9,15).toLowerCase()
     }
     if (build_type == 'rc-compose'){
         major_ver = cimsg.compose-id.substring(7,8)
         minor_ver = cimsg.compose-id.substring(9,10)
-        os_ver = cimsg.compose-id.substring(11,17).toLowerCase()
+        platform = cimsg.compose-id.substring(11,17).toLowerCase()
     }
     if (build_type == 'rc-osbs'){
         major_ver = cimsg.tag.name.substring(5,6)
         minor_ver = cimsg.tag.name.substring(7,8)
-        os_ver = cimsg.tag.name.substring(9,15).toLowerCase()
+        platform = cimsg.tag.name.substring(9,15).toLowerCase()
     }
-    return ["major_ver":major_ver, "minor_ver":minor_ver, "os_ver":os_ver]
-
+    if major_ver && minor_ver && platform{
+        return ["major_version":major_ver, "minor_version":minor_ver, "platform":platform]
+    }
+    else{
+        error "Required value is not obtained.."
+    }
 }
 
 def fetchCephVersion(def base_url){
@@ -75,7 +85,10 @@ def fetchCephVersion(def base_url){
     def document = Jsoup.connect(base_url).get().toString()
     def ceph_ver = document.findAll(/"ceph-common-([\w.-]+)\.([\w.-]+)"/)[0].findAll(/([\d]+)\.([\d]+)\.([\d]+)\-([\d]+)/)
     println ceph_ver
-    return ceph_ver
+    if (! ceph_ver){
+        error "ceph version not found.."
+    }
+    return ceph_ver[0]
 }
 
 def setLock(def major_ver, def minor_ver){
