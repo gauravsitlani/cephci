@@ -111,20 +111,19 @@ def setLock(def major_ver, def minor_ver){
     def lock_file = "${defaultFileDir}/RHCEPH-${major_ver}.${minor_ver}.lock"
     def lockFileExists = sh (returnStatus: true, script: "ls -l ${lock_file}")
     if (lockFileExists != 0) {
-        println "RHCEPH-${major_ver}.${minor_ver}.lock does not exist."
+        println "RHCEPH-${major_ver}.${minor_ver}.lock does not exist. creating it"
         sh(script: "touch ${lock_file}")
+        return
     }
-    else{
-        def startTime = System.currentTimeMillis()
-        while((System.currentTimeMillis()-startTime)<600000){
-            lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
-            if (lockFilePresent != 0) {
-                sh(script: "touch ${lock_file}")
-                return
-                }
-        }
-        error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.."
+    def startTime = System.currentTimeMillis()
+    while((System.currentTimeMillis()-startTime)<600000){
+        lockFilePresent = sh (returnStatus: true, script: "ls -l ${lock_file}")
+        if (lockFilePresent != 0) {
+            sh(script: "touch ${lock_file}")
+            return
+            }
     }
+    error "Lock file: RHCEPH-${major_ver}.${minor_ver}.lock already exist.can not create lock file"
 }
 
 def unSetLock(def major_ver, def minor_ver){
