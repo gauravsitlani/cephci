@@ -71,7 +71,7 @@ def fetchMajorMinorOSVersion(def build_type){
         minor_ver = cimsg.tag.name.substring(7,8)
         platform = cimsg.tag.name.substring(9,15).toLowerCase()
     }
-    if major_ver && minor_ver && platform{
+    if (major_ver && minor_ver && platform){
         return ["major_version":major_ver, "minor_version":minor_ver, "platform":platform]
     }
     else{
