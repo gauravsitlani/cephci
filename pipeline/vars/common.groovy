@@ -10,13 +10,13 @@ def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins") {
     /*
         Read the JSON file and returns a map object
     */
-    def defaultFileDir = "/ceph/cephci-jenkins/testing.yaml"
-    def yamlfileExists = sh (returnStatus: true, script: "ls -l ${defaultFileDir}")
+//     def defaultFileDir = "/ceph/cephci-jenkins/testing.yaml"
+    def yamlfileExists = sh (returnStatus: true, script: "ls -l ${location}/${yamlFile}")
     if (yamlfileExists != 0) {
         println "File ${location}/${yamlFile} does not exist."
         return [:]
     }
-    def props = readYaml file: defaultFileDir
+    def props = readYaml file: location/yamlFile
     return props
 }
 
