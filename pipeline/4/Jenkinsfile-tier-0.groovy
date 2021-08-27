@@ -129,7 +129,12 @@ node(nodeName) {
         def result = sharedLib.fetchMajorMinorOSVersion("compose")
         sharedLib.unSetLock(result.major_version, result.minor_version)
 //         def content = sharedLib.ReadFromReleaseFile(result.major_version, result.minor_version)
-        def content = "[latest:[ceph-version:14.2.122-196, repository:registry-proxy.engineering.redhat.com/rh-osbs/rhceph:ceph-4.2-rhel-8-containers-candidate-21853-20210824055854, composes:[[rhel-8:[compose-id:RHCEPH-4.2-RHEL-8-20210826.ci.1]]]]]"
+        def content = "latest:
+                            ceph-version: "14.2.122-190"
+                            repository: "registry-proxy.engineering.redhat.com/rh-osbs/rhceph:ceph-4.2-rhel-8-containers-candidate-21853-20210824055854"
+                            composes:
+                                - rhel-8:
+                                    compose-id: "RHCEPH-4.2-RHEL-8-20210824.ci.1""
         sharedLib.WriteToReleaseFile(result.major_version, result.minor_version, content)
 //         sharedLib.setLock(result.major_version, result.minor_version)
 //         sharedLib.unSetLock(result.major_version, result.minor_version)
