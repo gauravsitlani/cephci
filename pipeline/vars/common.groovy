@@ -140,7 +140,7 @@ def ReadFromReleaseFile(def major_ver, def minor_ver, def location="/ceph/cephci
     return releaseContent
 }
 
-def WriteToReleaseFile(def major_ver, def minor_ver, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
+def WriteToReleaseFile(def major_ver, def minor_ver, def releaseContent, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
     def releaseFile = "RHCEPH-${major_ver}.${minor_ver}.yaml"
     sh(script: """ echo '${releaseContent}' > ${location}/${releaseFile} """)
     unSetLock(major_ver, minor_ver)
