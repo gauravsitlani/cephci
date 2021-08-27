@@ -124,7 +124,7 @@ node(nodeName) {
         sharedLib.unSetLock(result.major_version, result.minor_version)
         def location="/ceph/cephci-jenkins/latest-rhceph-container-info"
         def releaseFile = "RHCEPH-4.3.yaml"
-        sh (script: "rm -f ${location}/${releaseFile}")
+        sh (script: "touch -f ${location}/${releaseFile}")
 //         def content = ['something': 'my datas',
 //                     'size': 3,
 //                     'isEmpty': false]
