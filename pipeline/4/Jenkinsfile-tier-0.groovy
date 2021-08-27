@@ -122,7 +122,9 @@ node(nodeName) {
     stage('Testing') {
         def result = sharedLib.fetchMajorMinorOSVersion("compose")
         sharedLib.unSetLock(result.major_version, result.minor_version)
-        def content = "latest:"
+        def content = ['something': 'my datas',
+                    'size': 3,
+                    'isEmpty': false]
         sharedLib.WriteToReleaseFile(result.major_version, result.minor_version, content)
     }
 
