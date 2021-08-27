@@ -122,13 +122,13 @@ node(nodeName) {
     stage('Testing') {
         def result = sharedLib.fetchMajorMinorOSVersion("compose")
         sharedLib.unSetLock(result.major_version, result.minor_version)
-        def location="/ceph/cephci-jenkins/latest-rhceph-container-info"
-        def releaseFile = "RHCEPH-4.3.yaml"
-        sh (script: "touch -f ${location}/${releaseFile}")
-//         def content = ['something': 'my datas',
-//                     'size': 3,
-//                     'isEmpty': false]
-//         sharedLib.WriteToReleaseFile('4', '3', content)
+//         def location="/ceph/cephci-jenkins/latest-rhceph-container-info"
+//         def releaseFile = "RHCEPH-4.3.yaml"
+//         sh (script: "touch -f ${location}/${releaseFile}")
+        def content = ['something': 'my datas',
+                    'size': 3,
+                    'isEmpty': false]
+        sharedLib.WriteToReleaseFile('4', '3', content)
     }
 
 //     stage('Set CVP Variable') {
