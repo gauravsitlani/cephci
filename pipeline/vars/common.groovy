@@ -137,6 +137,7 @@ def ReadFromReleaseFile(def major_ver, def minor_ver, def location="/ceph/cephci
     setLock(major_ver, minor_ver)
     def releaseContent = yamlToMap(releaseFile, location)
     println "content of release file is: ${releaseContent}"
+    return releaseContent
 }
 
 def WriteToReleaseFile(def major_ver, def minor_ver, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
