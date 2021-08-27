@@ -132,6 +132,19 @@ def unSetLock(def major_ver, def minor_ver){
     sh(script: "rm -f ${lock_file}")
 }
 
+def ReadFromReleaseFile(def major_ver, def minor_ver, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
+    def releaseFile = "RHCEPH-${major_ver}.${minor_ver}.yaml"
+    setLock(major_ver, minor_ver)
+    def releaseContent = yamlToMap(releaseFile, location)
+    println "content of release file is: ${releaseContent}"
+}
+
+def WriteToReleaseFile(def major_ver, def minor_ver, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
+    def releaseFile = "RHCEPH-${major_ver}.${minor_ver}.yaml"
+    sh(script: """ echo '${releaseContent}' > ${location}/${releaseFile} """)
+    unSetLock(major_ver, minor_ver)
+}
+
 
 def getCvpVariable() {
     /*
