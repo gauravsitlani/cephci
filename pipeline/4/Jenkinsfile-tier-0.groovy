@@ -120,20 +120,10 @@ node(nodeName) {
     }
     
     stage('Testing') {
-//         def result = sharedLib.yamlToMap("testing.yaml")
-//         println result
-//         def base = "http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210819.ci.0"
-//         sharedLib.fetchCephVersion(base)
-//         def cimsg = sharedLib.getCIMessageMap()
-//         println cimsg
         def result = sharedLib.fetchMajorMinorOSVersion("compose")
         sharedLib.unSetLock(result.major_version, result.minor_version)
-//         def content = sharedLib.ReadFromReleaseFile(result.major_version, result.minor_version)
         def content = "latest:"
         sharedLib.WriteToReleaseFile(result.major_version, result.minor_version, content)
-//         sharedLib.setLock(result.major_version, result.minor_version)
-//         sharedLib.unSetLock(result.major_version, result.minor_version)
-
     }
 
 //     stage('Set CVP Variable') {
