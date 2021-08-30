@@ -19,6 +19,23 @@ def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins/latest-rhceph-con
     return props
 }
 
+def SendUMBMessageTest(def msgMap, def overrideTopic){
+    def msgContent = writeJSON returnText: true, json: msgMap
+    def msgProperties = """ PRODUCT = Red Hat Ceph Storage
+        TOOL = cephci
+    """
+
+    sendCIMessage ([
+        providerName: 'Red Hat UMB',
+        overrides: [topic: '${overrideTopic}'],
+        messageContent: "${msgContent}",
+        messageProperties: msgProperties,
+        messageType: msgType,
+        failOnError: true
+    ])
+
+}
+
 def prepareNode() {
     /*
         Installs the required packages needed by the Jenkins node to
