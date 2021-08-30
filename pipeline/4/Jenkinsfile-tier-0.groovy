@@ -137,7 +137,7 @@ node(nodeName) {
         "TOOL" : "cephci"
     ]
         def topic = "VirtualTopic.qe.ci.rhcephqe.product-build.promote.complete"
-        sharedLib.SendUMBMessageTest(msgMap, topic)
+        sharedLib.SendUMBMessageTest(msgMap, topic, "Tier0TestingDone")
     }
 
 //     stage('Set CVP Variable') {
