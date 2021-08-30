@@ -19,7 +19,7 @@ def yamlToMap(def yamlFile, def location="/ceph/cephci-jenkins/latest-rhceph-con
     return props
 }
 
-def SendUMBMessageTest(def msgMap, def overrideTopic){
+def SendUMBMessageTest(def msgMap, def overrideTopic, def magType="TestingDone"){
     def msgContent = writeJSON returnText: true, json: msgMap
     def msgProperties = """ PRODUCT = Red Hat Ceph Storage
         TOOL = cephci
