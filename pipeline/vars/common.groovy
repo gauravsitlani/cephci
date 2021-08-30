@@ -27,7 +27,7 @@ def SendUMBMessageTest(def msgMap, def overrideTopic, def msgType="TestingDone")
 
     sendCIMessage ([
         providerName: 'Red Hat UMB',
-        overrides: [topic: '${overrideTopic}'],
+        overrides: [topic: "${overrideTopic}"],
         messageContent: "${msgContent}",
         messageProperties: msgProperties,
         messageType: msgType,
