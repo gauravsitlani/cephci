@@ -136,7 +136,7 @@ node(nodeName) {
         "REPOSITORY" : env.repository,
         "TOOL" : "cephci"
     ]
-        def topic = "VirtualTopic.qe.ci.jenkins"
+        def topic = "VirtualTopic.qe.ci.rhcephqe.product-build.promote.complete"
         sharedLib.SendUMBMessageTest(msgMap, topic)
     }
 
