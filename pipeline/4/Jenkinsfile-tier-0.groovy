@@ -127,17 +127,19 @@ node(nodeName) {
 //         sharedLib.WriteToReleaseFile('4', '3', content)
 //         def value1 = sharedLib.fetchCephVersion("http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210824.ci.1")
 //         println value1
-        def msgMap = [
-        "BUILD_URL" : env.BUILD_URL,
-        "CI_STATUS" : "PASS",
-        "COMPOSE_ID" : env.composeId,
-        "COMPOSE_URL" : env.composeUrl,
-        "PRODUCT" : "Red Hat Ceph Storage",
-        "REPOSITORY" : env.repository,
-        "TOOL" : "cephci"
-    ]
-        def topic = "VirtualTopic.qe.ci.rhcephqe.product-build.promote.complete"
-        sharedLib.SendUMBMessageTest(msgMap, topic, "Tier0TestingDone")
+//         def msgMap = [
+//         "BUILD_URL" : env.BUILD_URL,
+//         "CI_STATUS" : "PASS",
+//         "COMPOSE_ID" : env.composeId,
+//         "COMPOSE_URL" : env.composeUrl,
+//         "PRODUCT" : "Red Hat Ceph Storage",
+//         "REPOSITORY" : env.repository,
+//         "TOOL" : "cephci"
+//     ]
+//         def topic = "VirtualTopic.qe.ci.rhcephqe.product-build.promote.complete"
+//         sharedLib.SendUMBMessageTest(msgMap, topic, "Tier0TestingDone")
+        def testResults = [ "01_deploy": "PASS", "02_object": "FAIL"]
+        sharedLib.sendEmailNew(testResults)
     }
 
 //     stage('Set CVP Variable') {
