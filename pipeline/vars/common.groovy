@@ -60,7 +60,7 @@ def sendEmailNew(def testResults){
         mimeType: 'text/html',
         subject: "${subject}",
         body: "${body}",
-        from: "cephci@redhat.com",
+        from: "ckulal@redhat.com",
         to: "${toList}"
     )
 }
