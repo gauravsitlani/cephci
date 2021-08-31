@@ -38,31 +38,33 @@ def SendUMBMessageTest(def msgMap, def overrideTopic, def msgType){
 
 def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
+    println ciMsg
     def jobStatus = "STABLE"
-    def body = readFile(file: "pipeline/vars/emailable-report.html")
-    body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>ciMsg["build"]["compose-url"]</td></tr><td>PRODUCT</td><td> ${ciMsg.artifact.name}</td></tr>"
-    body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
-    body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
+    
+//     def body = readFile(file: "pipeline/vars/emailable-report.html")
+//     body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>ciMsg["build"]["compose-url"]</td></tr><td>PRODUCT</td><td> ${ciMsg.artifact.name}</td></tr>"
+//     body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
+//     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
 
-    body += "</table>"
-    body += "<body><u><h3>Test Summary</h3></u><br />"
-    def toList = "ckulal@redhat.com"
-    body += "<tr><th>Test Suite</th><th>Result</th>"
-    for (test in testResults) {
-        body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
-        }
-    if ('FAIL' in testResults.values()){
-        jobStatus = "UNSTABLE"}
+//     body += "</table>"
+//     body += "<body><u><h3>Test Summary</h3></u><br />"
+//     def toList = "ckulal@redhat.com"
+//     body += "<tr><th>Test Suite</th><th>Result</th>"
+//     for (test in testResults) {
+//         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
+//         }
+//     if ('FAIL' in testResults.values()){
+//         jobStatus = "UNSTABLE"}
 
-    def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr} is ${jobStatus}"
+//     def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr} is ${jobStatus}"
 
-    emailext (
-        mimeType: 'text/html',
-        subject: "${subject}",
-        body: "${body}",
-        from: "ckulal@redhat.com",
-        to: "${toList}"
-    )
+//     emailext (
+//         mimeType: 'text/html',
+//         subject: "${subject}",
+//         body: "${body}",
+//         from: "ckulal@redhat.com",
+//         to: "${toList}"
+//     )
 }
 
 def prepareNode() {
