@@ -40,6 +40,7 @@ def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
     println ciMsg
     def jobStatus = "STABLE"
+    println ciMsg["build"]["compose-url"]
     
 //     def body = readFile(file: "pipeline/vars/emailable-report.html")
 //     body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>ciMsg["build"]["compose-url"]</td></tr><td>PRODUCT</td><td> ${ciMsg.artifact.name}</td></tr>"
