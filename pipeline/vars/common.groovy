@@ -281,5 +281,6 @@ def sendGChatNotification(def testResults){
     googlechatnotification(url: "id:rhcephCIGChatRoom",
                            message: msg
                           )
+}
 
 return this;
