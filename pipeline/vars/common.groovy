@@ -222,11 +222,11 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
     def jobStatus = "STABLE"
-    def version = ${ciMsg.artifact.nvr}.split("\\.|-")
+    def version = ciMsg[artifact][nvr].split("\\.|-")
     println version
 //     def content = readFromReleaseFile(version[1], version[2], lockFlag=false)
-    def build_action = ciMsg["artifact"]["build_action"]
-    println build_action
+//     def build_action = ciMsg["artifact"]["build_action"]
+//     println build_action
 
 //     def body = readFile(file: "pipeline/vars/emailable-report.html")
 //     body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${ciMsg["build"]["compose-url"]}</td></tr><td>PRODUCT</td><td> ${ciMsg.artifact.name}</td></tr>"
