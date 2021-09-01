@@ -231,7 +231,7 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
                                             "product": "Redhat",
                                             "version": "RHCEPH-5.0",
                                             "ceph_version": "16.2.0-117",
-                                            "repository": "reponame"]
+                                            "container_image": "repositoryname"]
             tierLevel:
                 Example: Tier0, Tier1, CVP..
     */
@@ -240,17 +240,17 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
     def body = readFile(file: "pipeline/vars/emailable-report.html")
 
     body += "<body>"
-    body += "<h2><u>Test Artifacts</h2></u>"
+    body += "<h2><u>Test Artifacts</u></h2>"
     body += "<table>"
 
-    if (artifactDetails.product){body += "<tr><td>PRODUCT</td><td>${artifactDetails.product}</td></tr>"}
-    if (artifactDetails.version){body += "<tr><td> VERSION </td><td>${artifactDetails.version}</td></tr>"}
-    if (artifactDetails.ceph_version){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetails.ceph_version}</td></tr>"}
-    if (artifactDetails.composes){body += "<tr><td>COMPOSES</td><td>${artifactDetails.composes}</td></tr>"}
-    if (artifactDetails.repository){body += "<tr><td> REPOSITORY </td><td>${artifactDetails.repository}</td></tr>"}
-
+    if (artifactDetails.product){body += "<tr><td>Product</td><td>${artifactDetails.product}</td></tr>"}
+    if (artifactDetails.version){body += "<tr><td>Version</td><td>${artifactDetails.version}</td></tr>"}
+    if (artifactDetails.ceph_version){body += "<tr><td>Ceph Version </td><td>${artifactDetails.ceph_version}</td></tr>"}
+    if (artifactDetails.composes){body += "<tr><td>Composes</td><td>${artifactDetails.composes}</td></tr>"}
+    if (artifactDetails.container_image){body += "<tr><td>Container Image</td><td>${artifactDetails.container_image}</td></tr>"}
+    body += "<tr><td>Log</td><td>${env.BUILD_URL}</td></tr>"
     body += "</table><br />"
-    body += "<h2><u>Test Summary</h2></u>"
+    body += "<h2><u>Test Summary</u></h2>"
     body += "<p>Logs are available at ${env.BUILD_URL}</p>"
     body += "<table>"
     body += "<tr><th>Test Suite</th><th>Result</th></tr>"
