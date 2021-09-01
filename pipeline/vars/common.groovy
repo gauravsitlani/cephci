@@ -229,31 +229,31 @@ def sendEmail(def testResults, def artifactDetail, def tierLevel){
 
     if (artifactDetail.composes){body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSES </td><td>${artifactDetail.composes}</td></tr>"}
     println body
-//     if (${artifactDetail.product}){body += "<td>PRODUCT</td><td>${artifactDetail.product}</td></tr>"}
-//     if (${artifactDetail.version}){body += "<tr><td> VERSION </td><td>${artifactDetail.version}</td></tr>"}
-//     if (${artifactDetail.ceph_version}){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetail.ceph_version}</td></tr>"}
-//     if (${artifactDetail.repository}){body += "<tr><td> REPOSITORY </td><td>${artifactDetail.repository}</td></tr>"}
+    if (artifactDetail.product){body += "<td>PRODUCT</td><td>${artifactDetail.product}</td></tr>"}
+    if (artifactDetail.version){body += "<tr><td> VERSION </td><td>${artifactDetail.version}</td></tr>"}
+    if (artifactDetail.ceph_version){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetail.ceph_version}</td></tr>"}
+    if (artifactDetail.repository){body += "<tr><td> REPOSITORY </td><td>${artifactDetail.repository}</td></tr>"}
 
-//     body += "</table>"
-//     body += "<body><u><h3>Test Summary</h3></u><br />"
-//     body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
-//     body += "<tr><th>Test Suite</th><th>Result</th>"
-//     for (test in testResults) {
-//         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
-//         }
-//     if ('FAIL' in testResults.values()){
-//         toList = "ckulal@redhat.com"
-//         status = "UNSTABLE"}
+    body += "</table>"
+    body += "<body><u><h3>Test Summary</h3></u><br />"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
+    body += "<tr><th>Test Suite</th><th>Result</th>"
+    for (test in testResults) {
+        body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
+        }
+    if ('FAIL' in testResults.values()){
+        toList = "ckulal@redhat.com"
+        status = "UNSTABLE"}
 
-//     def subject = "${tierLevel} test report status of ${artifactDetail.version} is ${status}"
+    def subject = "${tierLevel} test report status of ${artifactDetail.version} is ${status}"
 
-//     emailext (
-//         mimeType: 'text/html',
-//         subject: "${subject}",
-//         body: "${body}",
-//         from: "cephci@redhat.com",
-//         to: "${toList}"
-//     )
+    emailext (
+        mimeType: 'text/html',
+        subject: "${subject}",
+        body: "${body}",
+        from: "cephci@redhat.com",
+        to: "${toList}"
+    )
 }
 
 def sendGChatNotification(def testResults, def tierLevel){
