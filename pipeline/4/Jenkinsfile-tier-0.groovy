@@ -147,7 +147,7 @@ node(nodeName) {
                        "product": "redhat",
                        "version": "version1",
                        "ceph_version": "cephversion1",
-                       "repository": "repo1"]
+                       "container_image": "repo1"]
         def testResults = [ "01_deploy": "PASS", "02_object": "PASS"]
         sharedLib.sendEmail(testResults,artifact,"Tier-0")
 //         sharedLib.sendGChatNotification(testResults,"Tier-0")
