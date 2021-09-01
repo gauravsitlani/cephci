@@ -142,7 +142,7 @@ node(nodeName) {
 //     ]
 //         def topic = "VirtualTopic.qe.ci.rhcephqe.product-build.promote.complete"
 //         sharedLib.SendUMBMessageTest(msgMap, topic, "Tier0TestingDone")
-        def testResults = [ "01_deploy": "PASS", "02_object": "FAIL"]
+        def testResults = [ "01_deploy": "PASS", "02_object": "PASS"]
 //         sharedLib.sendEmailNew(testResults)
         sharedLib.sendGChatNotification(testResults)
     }
