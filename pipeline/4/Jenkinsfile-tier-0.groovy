@@ -150,7 +150,7 @@ node(nodeName) {
                        "repository": "repo1"]
         def testResults = [ "01_deploy": "PASS", "02_object": "PASS"]
         sharedLib.sendEmail(testResults,artifact,"Tier-0")
-        sharedLib.sendGChatNotification(testResults,"Tier-0")
+//         sharedLib.sendGChatNotification(testResults,"Tier-0")
     }
 
 //     stage('Set CVP Variable') {
