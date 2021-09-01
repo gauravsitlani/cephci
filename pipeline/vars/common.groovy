@@ -221,18 +221,16 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 
 def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
-    println ciMsg
     def jobStatus = "STABLE"
-    println ciMsg["artifact"]["nvr"]
-    def version1 = ciMsg["artifact"]["nvr"].split("\\.|-")
-    println version1[0]
+    def version = ciMsg["artifact"]["nvr"].split("\\.|-")
 //     def content = readFromReleaseFile(version[1], version[2], lockFlag=false)
-//     def build_action = ciMsg["artifact"]["build_action"]
-//     println build_action
+    def build_action = ciMsg["artifact"]["build_action"]
+    println build_action
 
-//     def body = readFile(file: "pipeline/vars/emailable-report.html")
-//     body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${ciMsg["build"]["compose-url"]}</td></tr><td>PRODUCT</td><td> ${ciMsg.artifact.name}</td></tr>"
-//     body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
+    def body = readFile(file: "pipeline/vars/emailable-report.html")
+    body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>ciMsg["build"]["compose-url"]</td></tr><td>PRODUCT</td><td>ciMsg.artifact.name</td></tr>"
+    println body
+//     body += "<tr><td> VERSION </td><td>ciMsg.artifact.nvr</td></tr>"
 //     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
 //     body += "<tr><td> REPOSITORY </td><td>${content[build_action]["repository"]}</td></tr>"
 
