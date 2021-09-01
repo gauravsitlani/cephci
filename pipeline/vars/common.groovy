@@ -239,25 +239,25 @@ def sendEmailNew(def testResults){
     
     println body
 
-//     body += "</table>"
-//     body += "<body><u><h3>Test Summary</h3></u><br />"
-//     def toList = "ckulal@redhat.com"
-//     body += "<tr><th>Test Suite</th><th>Result</th>"
-//     for (test in testResults) {
-//         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
-//         }
-//     if ('FAIL' in testResults.values()){
-//         jobStatus = "UNSTABLE"}
+    body += "</table>"
+    body += "<body><u><h3>Test Summary</h3></u><br />"
+    def toList = "ckulal@redhat.com"
+    body += "<tr><th>Test Suite</th><th>Result</th>"
+    for (test in testResults) {
+        body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
+        }
+    if ('FAIL' in testResults.values()){
+        jobStatus = "UNSTABLE"}
 
-//     def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr} is ${jobStatus}"
+    def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr} is ${jobStatus}"
 
-//     emailext (
-//         mimeType: 'text/html',
-//         subject: "${subject}",
-//         body: "${body}",
-//         from: "cephci@redhat.com",
-//         to: "${toList}"
-//     )
+    emailext (
+        mimeType: 'text/html',
+        subject: "${subject}",
+        body: "${body}",
+        from: "cephci@redhat.com",
+        to: "${toList}"
+    )
 }
 
 return this;
