@@ -232,7 +232,7 @@ def sendEmailNew(def testResults){
 
     def body = readFile(file: "pipeline/vars/emailable-report.html")
     def compose = ciMsg["build"]["compose-url"]
-    body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${compose}</td></tr><td>PRODUCT</td><td>${ciMsg.artifact.name}</td></tr>"
+    body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${content."${build_action}".composes}</td></tr><td>PRODUCT</td><td>${ciMsg.artifact.name}</td></tr>"
     body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
     body += "<tr><td> REPOSITORY </td><td>${content."${build_action}".repository}</td></tr>"
