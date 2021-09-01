@@ -240,7 +240,7 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
     def body = readFile(file: "pipeline/vars/emailable-report.html")
 
     body += "<body>"
-    body += "<h2><u>Test Artifacts</u></h2>"
+    body += "<h2><u>Test Artifacts</h2></u>"
     body += "<table>"
 
     if (artifactDetails.product){body += "<tr><td>PRODUCT</td><td>${artifactDetails.product}</td></tr>"}
@@ -250,8 +250,8 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
     if (artifactDetails.repository){body += "<tr><td> REPOSITORY </td><td>${artifactDetails.repository}</td></tr>"}
 
     body += "</table><br />"
-    body += "<h2><u>Test Summary</u></h2>"
-    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
+    body += "<h2><u>Test Summary</h2></u>"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p>"
     body += "<table>"
     body += "<tr><th>Test Suite</th><th>Result</th></tr>"
     for (test in testResults) {
