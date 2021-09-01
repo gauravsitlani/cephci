@@ -219,7 +219,7 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 
 }
 
-def sendEmail(def testResults, def artifactDetail, def tierLevel){
+def sendEmail(def testResults, def artifactDetails, def tierLevel){
     /*
         Send an Email
         Arguments:
@@ -239,16 +239,21 @@ def sendEmail(def testResults, def artifactDetail, def tierLevel){
     def toList = "ckulal@redhat.com"
     def body = readFile(file: "pipeline/vars/emailable-report.html")
 
-    if (artifactDetail.composes){body += "<body><h2><u>Test Artifacts</h2></u><table><tr><td>COMPOSES</td><td>${artifactDetail.composes}</td></tr>"}
-    if (artifactDetail.product){body += "<tr><td>PRODUCT</td><td>${artifactDetail.product}</td></tr>"}
-    if (artifactDetail.version){body += "<tr><td> VERSION </td><td>${artifactDetail.version}</td></tr>"}
-    if (artifactDetail.ceph_version){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetail.ceph_version}</td></tr>"}
-    if (artifactDetail.repository){body += "<tr><td> REPOSITORY </td><td>${artifactDetail.repository}</td></tr>"}
+    body += "<body>"
+    body += "<h2><u>Test Artifacts</h2></u>"
+    body += "<table>"
+
+    if (artifactDetails.product){body += "<tr><td>PRODUCT</td><td>${artifactDetails.product}</td></tr>"}
+    if (artifactDetails.version){body += "<tr><td> VERSION </td><td>${artifactDetails.version}</td></tr>"}
+    if (artifactDetails.ceph_version){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetails.ceph_version}</td></tr>"}
+    if (artifactDetails.composes){body += "<tr><td>COMPOSES</td><td>${artifactDetails.composes}</td></tr>"}
+    if (artifactDetails.repository){body += "<tr><td> REPOSITORY </td><td>${artifactDetails.repository}</td></tr>"}
 
     body += "</table><br />"
     body += "<u><h2>Test Summary</h2></u>"
     body += "<p>Logs are available at ${env.BUILD_URL}</p>"
-    body += "<table><tr><th>Test Suite</th><th>Result</th>"
+    body += "<table>"
+    body += "<tr><th>Test Suite</th><th>Result</th>"
     for (test in testResults) {
         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
     }
@@ -257,7 +262,7 @@ def sendEmail(def testResults, def artifactDetail, def tierLevel){
         toList = "ckulal@redhat.com"
         status = "UNSTABLE"}
 
-    def subject = "${tierLevel} test report status of ${artifactDetail.version} is ${status}"
+    def subject = "${tierLevel} test report status of ${artifactDetails.version} is ${status}"
 
     emailext (
         mimeType: 'text/html',
