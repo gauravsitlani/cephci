@@ -97,10 +97,10 @@ node(nodeName) {
 
     timeout(unit: "MINUTES", time: 30) {
         stage('Install prereq') {
-            if (env.WORKSPACE) {
-                println env.WORKSPACE
-                deleteDir()
-            }
+//             if (env.WORKSPACE) {
+//                 println env.WORKSPACE
+//                 deleteDir()
+//             }
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: 'refs/remotes/origin/testing_4x_jen']],
