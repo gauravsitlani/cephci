@@ -236,6 +236,7 @@ def sendEmail(def testResults){
     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
     body += "<tr><td> REPOSITORY </td><td>${content."${build_action}".repository}</td></tr>"
     body += "</table>"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
     body += "<body><u><h3>Test Summary</h3></u><br />"
     body += "<tr><th>Test Suite</th><th>Result</th>"
     for (test in testResults) {
@@ -244,7 +245,7 @@ def sendEmail(def testResults){
     if ('FAIL' in testResults.values()){
         toList = "ckulal@redhat.com"
         jobStatus = "UNSTABLE"}
-    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
+    
     if (build_action == 'latest'){build_action = 'tier0'}
     def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr}:${build_action} is ${jobStatus}"
 
