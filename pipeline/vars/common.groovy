@@ -236,6 +236,8 @@ def sendEmailNew(def testResults){
     body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
     body += "<tr><td> REPOSITORY </td><td>${content."${build_action}".repository}</td></tr>"
+    
+    println body
 
 //     body += "</table>"
 //     body += "<body><u><h3>Test Summary</h3></u><br />"
