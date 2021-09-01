@@ -225,7 +225,10 @@ def sendEmailNew(def testResults){
     def jobStatus = "STABLE"
     def version = ciMsg["artifact"]["nvr"].split("\\.|-")
     def content = readFromReleaseFile(version[1], version[2], lockFlag=false)
+    println content
+    
     def build_action = ciMsg["artifact"]["build_action"]
+    println build_action
 
     def body = readFile(file: "pipeline/vars/emailable-report.html")
     def compose = ciMsg["build"]["compose-url"]
