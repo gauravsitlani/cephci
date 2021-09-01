@@ -277,7 +277,7 @@ def sendGChatNotification(def testResults){
         jobStatus = "UNSTABLE"}
     def tier = ciMsg["artifact"]["build_action"]
     if (tier == 'latest'){tier = 'tier0'}
-    def msg= "Run for ${ciMsg.artifact.nvr}:${tier} is ${jobStatus}."
+    def msg= "Testing: Run for ${ciMsg.artifact.nvr}:${tier} is ${jobStatus}.url:${env.BUILD_URL}"
     googlechatnotification(url: "id:rhcephCIGChatRoom",
                            message: msg
                           )
