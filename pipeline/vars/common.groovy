@@ -147,24 +147,28 @@ def unSetLock(def majorVer, def minorVer){
     sh(script: "rm -f ${lockFile}")
 }
 
-def readFromReleaseFile(def majorVer, def minorVer, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
+def readFromReleaseFile(def majorVer, def minorVer, def location="/ceph/cephci-jenkins/latest-rhceph-container-info", def lockFlag=true){
     /*
         Method to set lock and read content from the release yaml file.
     */
     def releaseFile = "RHCEPH-${majorVer}.${minorVer}.yaml"
-    setLock(majorVer, minorVer)
+    if (lockFlag){ 
+        setLock(majorVer, minorVer)
+    }
     def releaseContent = yamlToMap(releaseFile, location)
     println "content of release file is: ${releaseContent}"
     return releaseContent
 }
 
-def writeToReleaseFile(def majorVer, def minorVer, def releaseContent, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
+def writeToReleaseFile(def majorVer, def minorVer, def releaseContent, def location="/ceph/cephci-jenkins/latest-rhceph-container-info", def unsetLockFlag=true){
     /*
         Method write content from the release yaml file and unset the lock.
     */
     def releaseFile = "RHCEPH-${majorVer}.${minorVer}.yaml"
     writeYaml file: "${location}/${releaseFile}", data: releaseContent, overwrite: true
-    unSetLock(majorVer, minorVer)
+    if (unsetLockFlag){
+        unSetLock(majorVer, minorVer)
+    }
 }
 
 def compareCephVersion(def oldCephVer, def newCephVer){
@@ -217,7 +221,37 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 
 def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
-    println ciMsg
+    def jobStatus = "STABLE"
+    def version = ${ciMsg.artifact.nvr}.split("\\.|-")
+    def content = readFromReleaseFile(version[0], version[1], lockFlag=false)
+    def build_action = ciMsg["artifact"]["build_action"]
+    content[build_action]["repository"]
+
+    def body = readFile(file: "pipeline/vars/emailable-report.html")
+    body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${ciMsg["build"]["compose-url"]}</td></tr><td>PRODUCT</td><td> ${ciMsg.artifact.name}</td></tr>"
+    body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
+    body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
+    body += "<tr><td> REPOSITORY </td><td>${content[build_action]["repository"]}</td></tr>"
+
+    body += "</table>"
+    body += "<body><u><h3>Test Summary</h3></u><br />"
+    def toList = "ckulal@redhat.com"
+    body += "<tr><th>Test Suite</th><th>Result</th>"
+    for (test in testResults) {
+        body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
+        }
+    if ('FAIL' in testResults.values()){
+        jobStatus = "UNSTABLE"}
+
+    def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr} is ${jobStatus}"
+
+    emailext (
+        mimeType: 'text/html',
+        subject: "${subject}",
+        body: "${body}",
+        from: "cephci@redhat.com",
+        to: "${toList}"
+    )
 }
 
 return this;
