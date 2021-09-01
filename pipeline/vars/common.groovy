@@ -36,6 +36,7 @@ def SendUMBMessageTest(def msgMap, def overrideTopic, def msgType){
 
 }
 
+@NonCPS
 def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
     def jobStatus = "STABLE"
