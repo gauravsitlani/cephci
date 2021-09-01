@@ -147,7 +147,7 @@ def unSetLock(def majorVer, def minorVer){
     sh(script: "rm -f ${lockFile}")
 }
 
-def readFromReleaseFile(def majorVer, def minorVer, def location="/ceph/cephci-jenkins/latest-rhceph-container-info", def lockFlag=true){
+def readFromReleaseFile(def majorVer, def minorVer, def lockFlag=true, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
     /*
         Method to set lock and read content from the release yaml file.
     */
@@ -160,7 +160,7 @@ def readFromReleaseFile(def majorVer, def minorVer, def location="/ceph/cephci-j
     return releaseContent
 }
 
-def writeToReleaseFile(def majorVer, def minorVer, def releaseContent, def location="/ceph/cephci-jenkins/latest-rhceph-container-info", def unsetLockFlag=true){
+def writeToReleaseFile(def majorVer, def minorVer, def releaseContent, def unsetLockFlag=true, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
     /*
         Method write content from the release yaml file and unset the lock.
     */
