@@ -219,27 +219,40 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 
 }
 
-def sendEmail(def testResults, def artifactDetail, def tierLevel){
+def sendEmail(def testResults, def artifactDetails, def tierLevel){
     /*
         Send an Email
+        Arguments:
+            testResults: map of the test suites and its status
+                Example: testResults = [ "01_deploy": "PASS", "02_object": "PASS"]
+            artifactDetails: Map of artifact details
+                Example: artifactDetails = ["composes": ["rhe-7": "composeurl1",
+                                                         "rhel-8": "composeurl2"],
+                                            "product": "Redhat",
+                                            "version": "RHCEPH-5.0",
+                                            "ceph_version": "16.2.0-117",
+                                            "repository": "reponame"]
+            tierLevel:
+                Example: Tier0, Tier1, CVP..
     */
     def status = "STABLE"
     def toList = "ckulal@redhat.com"
     def body = readFile(file: "pipeline/vars/emailable-report.html")
 
-    if (artifactDetail.composes){body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSES </td><td>${artifactDetail.composes}</td></tr>"}
-    if (artifactDetail.product){body += "<td>PRODUCT</td><td>${artifactDetail.product}</td></tr>"}
+    if (artifactDetail.composes){body += "<body><h2><u>Test Artifacts</h2></u><table><tr><td>COMPOSES</td><td>${artifactDetail.composes}</td></tr>"}
+    if (artifactDetail.product){body += "<tr><td>PRODUCT</td><td>${artifactDetail.product}</td></tr>"}
     if (artifactDetail.version){body += "<tr><td> VERSION </td><td>${artifactDetail.version}</td></tr>"}
     if (artifactDetail.ceph_version){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetail.ceph_version}</td></tr>"}
     if (artifactDetail.repository){body += "<tr><td> REPOSITORY </td><td>${artifactDetail.repository}</td></tr>"}
 
-    body += "</table>"
-    body += "<body><u><h3>Test Summary</h3></u><br />"
-    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
-    body += "<tr><th>Test Suite</th><th>Result</th>"
+    body += "</table><br />"
+    body += "<u><h2>Test Summary</h2></u>"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p>"
+    body += "<table><tr><th>Test Suite</th><th>Result</th>"
     for (test in testResults) {
         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
-        }
+    }
+    body += "</table><br /></body></html>"
     if ('FAIL' in testResults.values()){
         toList = "ckulal@redhat.com"
         status = "UNSTABLE"}
