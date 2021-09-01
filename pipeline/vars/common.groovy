@@ -222,7 +222,7 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
     def jobStatus = "STABLE"
-    def version = ciMsg[artifact][nvr].split("\\.|-")
+    def version = ciMsg["artifact"]["nvr"].split("\\.|-")
     println version
 //     def content = readFromReleaseFile(version[1], version[2], lockFlag=false)
 //     def build_action = ciMsg["artifact"]["build_action"]
