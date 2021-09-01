@@ -225,16 +225,14 @@ def sendEmailNew(def testResults){
     def jobStatus = "STABLE"
     def version = ciMsg["artifact"]["nvr"].split("\\.|-")
     def content = readFromReleaseFile(version[1], version[2], lockFlag=false)
-    println content
-//     def build_action = ciMsg["artifact"]["build_action"]
-//     println build_action
+    def build_action = ciMsg["artifact"]["build_action"]
 
-//     def body = readFile(file: "pipeline/vars/emailable-report.html")
-//     def compose = ciMsg["build"]["compose-url"]
-//     body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${compose}</td></tr><td>PRODUCT</td><td>${ciMsg.artifact.name}</td></tr>"
-//     body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
-//     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
-//     body += "<tr><td> REPOSITORY </td><td>${content.build_action.repository"}</td></tr>"
+    def body = readFile(file: "pipeline/vars/emailable-report.html")
+    def compose = ciMsg["build"]["compose-url"]
+    body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSE_URL </td><td>${compose}</td></tr><td>PRODUCT</td><td>${ciMsg.artifact.name}</td></tr>"
+    body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
+    body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
+    body += "<tr><td> REPOSITORY </td><td>${content.build_action.repository"}</td></tr>"
 
 //     body += "</table>"
 //     body += "<body><u><h3>Test Summary</h3></u><br />"
