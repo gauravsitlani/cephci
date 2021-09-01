@@ -36,7 +36,7 @@ def SendUMBMessageTest(def msgMap, def overrideTopic, def msgType){
 
 }
 
-ddef sendEmailNew(def testResults){
+def sendEmailNew(def testResults){
     def ciMsg = getCIMessageMap()
     def jobStatus = "STABLE"
     def version = ${ciMsg.artifact.nvr}.split("\\.|-")
