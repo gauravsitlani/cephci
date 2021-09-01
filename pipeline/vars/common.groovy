@@ -260,4 +260,26 @@ def sendEmailNew(def testResults){
     )
 }
 
+def sendGChatNotification(def testResults){
+    /*
+        Send a GChat notification.
+        Plugin used:
+            googlechatnotification which allows to post build notifications to a Google Chat Messenger groups.
+            parameter:
+                url: Mandatory String parameter.
+                     Single/multiple comma separated HTTP URLs or/and single/multiple comma separated Credential IDs.
+                message: Mandatory String parameter.
+                         Notification message to be sent.
+    */
+    def ciMsg = getCIMessageMap()
+    def jobStatus = "STABLE"
+    if ('FAIL' in testResults.values()){
+        jobStatus = "UNSTABLE"}
+    def tier = ciMsg["artifact"]["build_action"]
+    if (tier == 'latest'){tier = 'tier0'}
+    def msg= "Run for ${ciMsg.artifact.nvr}:${tier} is ${jobStatus}."
+    googlechatnotification(url: "id:rhcephCIGChatRoom",
+                           message: msg
+                          )
+
 return this;
