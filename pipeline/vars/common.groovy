@@ -219,7 +219,7 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 
 }
 
-def sendEmail(def testResults, def artifactDetails, def tierLevel){
+def sendEmail(def testResults, def artifactDetail, def tierLevel){
     /*
         Send an Email
         Arguments:
