@@ -219,37 +219,34 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType){
 
 }
 
-def sendEmailNew(def testResults){
+def sendEmail(def testResults){
+    /*
+        Send an Email
+    */
     def ciMsg = getCIMessageMap()
-    println ciMsg
     def jobStatus = "STABLE"
+    def toList = "ckulal@redhat.com"
     def version = ciMsg["artifact"]["nvr"].split("\\.|-")
     def content = readFromReleaseFile(version[1], version[2], lockFlag=false)
-    println content
-    
     def build_action = ciMsg["artifact"]["build_action"]
-    println build_action
-
     def body = readFile(file: "pipeline/vars/emailable-report.html")
-    def compose = ciMsg["build"]["compose-url"]
+
     body += "<h2><u>Test Artifacts</h2></u><table><tr><td> RHEL7_COMPOSE_URL </td><td>${content."${build_action}".composes["rhel-7"]}</td></tr><tr><td> RHEL8_COMPOSE_URL </td><td>${content."${build_action}".composes["rhel-8"]}</td></tr><td>PRODUCT</td><td>${ciMsg.artifact.name}</td></tr>"
     body += "<tr><td> VERSION </td><td>${ciMsg.artifact.nvr}</td></tr>"
     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
     body += "<tr><td> REPOSITORY </td><td>${content."${build_action}".repository}</td></tr>"
-    
-    println body
-
     body += "</table>"
     body += "<body><u><h3>Test Summary</h3></u><br />"
-    def toList = "ckulal@redhat.com"
     body += "<tr><th>Test Suite</th><th>Result</th>"
     for (test in testResults) {
         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
         }
     if ('FAIL' in testResults.values()){
+        toList = "ckulal@redhat.com"
         jobStatus = "UNSTABLE"}
-
-    def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr} is ${jobStatus}"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
+    if (build_action == 'latest'){build_action = 'tier0'}
+    def subject = "Test report status of RH Ceph ${ciMsg.artifact.nvr}:${build_action} is ${jobStatus}"
 
     emailext (
         mimeType: 'text/html',
@@ -277,7 +274,7 @@ def sendGChatNotification(def testResults){
         jobStatus = "UNSTABLE"}
     def tier = ciMsg["artifact"]["build_action"]
     if (tier == 'latest'){tier = 'tier0'}
-    def msg= "Testing: Run for ${ciMsg.artifact.nvr}:${tier} is ${jobStatus}.url:${env.BUILD_URL}"
+    def msg= "Testing: Run for ${ciMsg.artifact.nvr}:${tier} is ${jobStatus}.Log:${env.BUILD_URL}"
     googlechatnotification(url: "id:rhcephCIGChatRoom",
                            message: msg
                           )
