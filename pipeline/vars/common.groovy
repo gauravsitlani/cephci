@@ -228,7 +228,6 @@ def sendEmail(def testResults, def artifactDetail, def tierLevel){
     def body = readFile(file: "pipeline/vars/emailable-report.html")
 
     if (artifactDetail.composes){body += "<h2><u>Test Artifacts</h2></u><table><tr><td> COMPOSES </td><td>${artifactDetail.composes}</td></tr>"}
-    println body
     if (artifactDetail.product){body += "<td>PRODUCT</td><td>${artifactDetail.product}</td></tr>"}
     if (artifactDetail.version){body += "<tr><td> VERSION </td><td>${artifactDetail.version}</td></tr>"}
     if (artifactDetail.ceph_version){body += "<tr><td> CEPH-VERSION </td><td>${artifactDetail.ceph_version}</td></tr>"}
