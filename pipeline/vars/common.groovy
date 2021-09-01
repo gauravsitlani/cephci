@@ -236,8 +236,8 @@ def sendEmail(def testResults){
     body += "<tr><td> CEPH-VERSION </td><td>${ciMsg.artifact.version}</td></tr>"
     body += "<tr><td> REPOSITORY </td><td>${content."${build_action}".repository}</td></tr>"
     body += "</table>"
-    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
     body += "<body><u><h3>Test Summary</h3></u><br />"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
     body += "<tr><th>Test Suite</th><th>Result</th>"
     for (test in testResults) {
         body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
