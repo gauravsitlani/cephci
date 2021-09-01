@@ -251,7 +251,7 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
 
     body += "</table><br />"
     body += "<h2><u>Test Summary</u></h2>"
-    body += "<p>Logs are available at ${env.BUILD_URL}</p>"
+    body += "<p>Logs are available at ${env.BUILD_URL}</p><br />"
     body += "<table>"
     body += "<tr><th>Test Suite</th><th>Result</th></tr>"
     for (test in testResults) {
