@@ -57,7 +57,7 @@ node(nodeName) {
         /* Prepare pipeline stages using RHCEPH version */
         ciMap = sharedLib.getCIMessageMap()
         buildPhase = ciMap["artifact"]["phase"]
-        def (majorVersion, minorVersion) = getRHCSVersionFromArtifactsNvr()
+        (majorVersion, minorVersion) = getRHCSVersionFromArtifactsNvr()
 
         /*
            Read the release yaml contents to get contents,
@@ -73,7 +73,7 @@ node(nodeName) {
         /* Publish results through E-mail and Google Chat */
         def buildPhaseValue = buildPhase.split("-")
         def tierValue = buildPhaseValue[1].toInteger()+1
-        def tierLevel = buildPhaseValue[0]+"-"+tierValue
+        tierLevel = buildPhaseValue[0]+"-"+tierValue
 
         if ( ! (sharedLib.failStatus in testResults.values()) ) {
             releaseContent = sharedLib.ReadFromReleaseFile(majorVersion, minorVersion)
