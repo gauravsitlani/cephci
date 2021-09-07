@@ -116,7 +116,7 @@ node(nodeName) {
             "container_image": releaseContent[buildPhase]["repository"]]
         
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
-        sharedLib.sendEMail(testResults, artifactData, tierLevel)
+        sharedLib.sendEmail(testResults, artifactData, tierLevel)
     }
 
     stage('Publish UMB') {
