@@ -4,10 +4,10 @@
 */
 
 // Define global variables
+import org.jsoup.Jsoup
+
 def passStatus = "PASS"
 def failStatus = "FAIL"
-
-import org.jsoup.Jsoup
 
 def prepareNode(def listener=0) {
     /*
@@ -309,12 +309,12 @@ def executeTestScript(def scriptPath, def cliArgs) {
    /*
         Executes the test script
    */
-    def rc = ${passStatus}
+    def rc = passStatus
     catchError (message: 'STAGE_FAILED', buildResult: 'FAILURE', stageResult: 'FAILURE') {
         try {
             sh(script: "sh ${scriptPath} ${cliArgs}")
         } catch(Exception err) {
-            rc = ${failStatus}
+            rc = failStatus
             println err.getMessage()
             error "Encountered an error"
         }
