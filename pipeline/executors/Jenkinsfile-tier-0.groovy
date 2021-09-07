@@ -76,11 +76,31 @@ node(nodeName) {
         def emailTo = "ceph-qe@redhat.com"
 
         if ( ! ("FAIL" in testResults.values()) ) {
-            emailTo = "ceph-qe-list@redhat.com"
             releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
-            releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
-            releaseContent[tierLevel]["last-run"] = releaseContent[buildPhase]["ceph-version"]
+            if (releaseContent[tierLevel]){
+                releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
+                releaseContent[tierLevel]["last-run"] = releaseContent[tierLevel]["ceph-version"]
+                releaseContent[tierLevel]["ceph-version"] = releaseContent[buildPhase]["ceph-version"]
+                if releaseContent[buildPhase]["repository"]{releaseContent[tierLevel]["repository"] = releaseContent[buildPhase]["repository"]}
+            }
+            
+            else{
+                def updateContent = [
+                    "${tierLevel}": [
+                        "ceph-version": releaseContent[buildPhase]["ceph-version"],
+                        "composes": releaseContent[buildPhase]["composes"]]]
+
+                if releaseContent[buildPhase]["repository"]{
+                    def repo = ["repository": releaseContent[buildPhase]["repository"]]
+                    updateContent[tierLevel] += repo
+                }
+                releaseContent += updateContent
+            }
+            
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
+            
+            
+            
         }
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
         sharedLib.sendEMail(testResults, buildArtifactsDetails(), tierLevel)
