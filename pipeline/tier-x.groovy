@@ -57,7 +57,13 @@ node(nodeName) {
         /* Prepare pipeline stages using RHCEPH version */
         ciMap = sharedLib.getCIMessageMap()
         buildPhase = ciMap["artifact"]["phase"]
-        (majorVersion, minorVersion) = sharedLib.getRHCSVersionFromArtifactsNvr()
+        def rhcsVersion = sharedLib.getRHCSVersionFromArtifactsNvr()
+        majorVersion = rhcsVersion["major_version"]
+        minorVersion = rhcsVersion["minor_version"]
+        
+        println "versions:"
+        println majorVersion
+        println minorVersion
 
         /*
            Read the release yaml contents to get contents,
