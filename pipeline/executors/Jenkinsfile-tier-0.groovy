@@ -31,7 +31,7 @@ node(nodeName) {
         stage('Install Prereq') {
             checkout([
                 $class: 'GitSCM',
-                branches: [[name: '*/master']],
+                branches: [[name: 'refs/remotes/origin/testing_generic']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[
                     $class: 'SubmoduleOption',
@@ -57,7 +57,9 @@ node(nodeName) {
         /* Prepare pipeline stages using RHCEPH version */
         ciMap = sharedLib.getCIMessageMap()
         buildPhase = ciMap["artifact"]["build_action"]
-        def (majorVersion, minorVersion) = getRHCSVersionFromArtifactsNvr()
+        def rhcsVersion = sharedLib.getRHCSVersionFromArtifactsNvr()
+        majorVersion = rhcsVersion["major_version"]
+        minorVersion = rhcsVersion["minor_version"]
 
         /* 
            Read the release yaml contents to get contents,
