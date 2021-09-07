@@ -81,7 +81,7 @@ node(nodeName) {
                 releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
                 releaseContent[tierLevel]["last-run"] = releaseContent[tierLevel]["ceph-version"]
                 releaseContent[tierLevel]["ceph-version"] = releaseContent[buildPhase]["ceph-version"]
-                if releaseContent[buildPhase]["repository"]{releaseContent[tierLevel]["repository"] = releaseContent[buildPhase]["repository"]}
+                if (releaseContent[buildPhase]["repository"]){releaseContent[tierLevel]["repository"] = releaseContent[buildPhase]["repository"]}
             }
             
             else{
