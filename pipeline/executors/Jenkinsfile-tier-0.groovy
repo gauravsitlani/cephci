@@ -76,6 +76,7 @@ node(nodeName) {
         def emailTo = "ceph-qe@redhat.com"
 
         if ( ! ("FAIL" in testResults.values()) ) {
+            sharedLib.unSetLock(majorVersion, minorVersion)
             releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
             if (releaseContent[tierLevel]){
                 releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
