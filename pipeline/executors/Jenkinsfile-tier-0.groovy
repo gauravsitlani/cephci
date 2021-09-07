@@ -90,7 +90,7 @@ node(nodeName) {
                         "ceph-version": releaseContent[buildPhase]["ceph-version"],
                         "composes": releaseContent[buildPhase]["composes"]]]
 
-                if releaseContent[buildPhase]["repository"]{
+                if (releaseContent[buildPhase]["repository"]){
                     def repo = ["repository": releaseContent[buildPhase]["repository"]]
                     updateContent[tierLevel] += repo
                 }
