@@ -109,11 +109,11 @@ node(nodeName) {
             
         }
         def artifactData = [
-        "composes": releaseContent[buildPhase]["composes"],
-        "product": "Red Hat Ceph Storage",
-        "version": ciMap["artifact"]["nvr"],
-        "ceph_version": releaseContent[buildPhase]["ceph-version"],
-        "container_image": releaseContent[buildPhase]["repository"]]
+            "composes": releaseContent[buildPhase]["composes"],
+            "product": "Red Hat Ceph Storage",
+            "version": ciMap["artifact"]["nvr"],
+            "ceph_version": releaseContent[buildPhase]["ceph-version"],
+            "container_image": releaseContent[buildPhase]["repository"]]
         
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
         sharedLib.sendEMail(testResults, artifactData, tierLevel)
