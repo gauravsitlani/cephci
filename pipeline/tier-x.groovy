@@ -79,12 +79,15 @@ node(nodeName) {
         /* Publish results through E-mail and Google Chat */
         def buildPhaseValue = buildPhase.split("-")
         def tierValue = buildPhaseValue[1].toInteger()+1
-        tierLevel = buildPhaseValue[0]+"-"+tierValue
+        def tierLevel = buildPhaseValue[0]+"-"+tierValue
+
+        def preTierValue = buildPhaseValue[1].toInteger()-1
+        def preTierLevel = buildPhaseValue[0]+"-"+tierValue
 
         if ( ! (sharedLib.failStatus in testResults.values()) ) {
             releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
-            releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
-            releaseContent[tierLevel]["last-run"] = releaseContent[buildPhase]["ceph-version"]
+            releaseContent[buildPhase]["composes"] = releaseContent[preTierLevel]["composes"]
+            releaseContent[buildPhase]["last-run"] = releaseContent[preTierLevel]["ceph-version"]
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
         }
 //         sharedLib.sendGChatNotification(testResults, buildPhase)
