@@ -14,16 +14,16 @@ def sharedLib
 def majorVersion
 def minorVersion
 
-def buildArtifactsDetails() {
-    /* Return artifacts details using release content */
-    return [
-        "composes": releaseContent[buildPhase]["composes"],
-        "product": "Red Hat Ceph Storage",
-        "version": ciMap["artifact"]["nvr"],
-        "ceph_version": releaseContent[buildPhase]["ceph-version"],
-        "container_image": releaseContent[buildPhase]["repository"]
-    ]
-}
+// def buildArtifactsDetails() {
+//     /* Return artifacts details using release content */
+//     return [
+//         "composes": releaseContent[buildPhase]["composes"],
+//         "product": "Red Hat Ceph Storage",
+//         "version": ciMap["artifact"]["nvr"],
+//         "ceph_version": releaseContent[buildPhase]["ceph-version"],
+//         "container_image": releaseContent[buildPhase]["repository"]
+//     ]
+// }
 
 node(nodeName) {
 
@@ -65,7 +65,7 @@ node(nodeName) {
            Read the release yaml contents to get contents,
            before other listener/Executo Jobs updates it.
         */
-//         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
+        releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildPhase, tierLevel, testResults)
     }
 
@@ -108,8 +108,15 @@ node(nodeName) {
             
             
         }
+        def artifactData = [
+        "composes": releaseContent[buildPhase]["composes"],
+        "product": "Red Hat Ceph Storage",
+        "version": ciMap["artifact"]["nvr"],
+        "ceph_version": releaseContent[buildPhase]["ceph-version"],
+        "container_image": releaseContent[buildPhase]["repository"]]
+        
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
-        sharedLib.sendEMail(testResults, buildArtifactsDetails(), tierLevel)
+        sharedLib.sendEMail(testResults, artifactData, tierLevel)
     }
 
     stage('Publish UMB') {
