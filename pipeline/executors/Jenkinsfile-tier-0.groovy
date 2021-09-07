@@ -96,6 +96,7 @@ node(nodeName) {
 
                 if (releaseContent[buildPhase]["repository"]){
                     def repo = ["repository": releaseContent[buildPhase]["repository"]]
+                    println updateContent[tierLevel]
                     updateContent[tierLevel] += repo
                     println "content2: ${updateContent}"
                 }
