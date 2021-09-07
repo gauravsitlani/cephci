@@ -76,7 +76,7 @@ node(nodeName) {
         /* Publish results through E-mail and Google Chat */
         def emailTo = "ceph-qe@redhat.com"
 
-        if ( ! (sharedLib.failStatus in testResults.values()) ) {
+        if ( ! ("FAIL" in testResults.values()) ) {
             emailTo = "ceph-qe-list@redhat.com"
             releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
             releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
