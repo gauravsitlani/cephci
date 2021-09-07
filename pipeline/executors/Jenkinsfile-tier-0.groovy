@@ -55,7 +55,6 @@ node(nodeName) {
 
     stage('Prepare-Stages') {
         /* Prepare pipeline stages using RHCEPH version */
-        println sharedLib.passStatus
         ciMap = sharedLib.getCIMessageMap()
         buildPhase = ciMap["artifact"]["build_action"]
         def rhcsVersion = sharedLib.getRHCSVersionFromArtifactsNvr()
