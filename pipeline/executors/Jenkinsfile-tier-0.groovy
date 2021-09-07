@@ -91,10 +91,13 @@ node(nodeName) {
                     "${tierLevel}": [
                         "ceph-version": releaseContent[buildPhase]["ceph-version"],
                         "composes": releaseContent[buildPhase]["composes"]]]
+                
+                println updateContent
 
                 if (releaseContent[buildPhase]["repository"]){
                     def repo = ["repository": releaseContent[buildPhase]["repository"]]
                     updateContent[tierLevel] += repo
+                    println "content2: ${updateContent}"
                 }
                 releaseContent += updateContent
             }
