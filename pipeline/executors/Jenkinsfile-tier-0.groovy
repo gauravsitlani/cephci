@@ -86,6 +86,7 @@ node(nodeName) {
             }
             
             else{
+                println "else part"
                 def updateContent = [
                     "${tierLevel}": [
                         "ceph-version": releaseContent[buildPhase]["ceph-version"],
