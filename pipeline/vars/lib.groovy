@@ -167,17 +167,17 @@ def readFromReleaseFile(def majorVer, def minorVer, def lockFlag=true, def locat
     if (lockFlag){
         setLock(majorVer, minorVer)
     }
-    def releaseContent = yamlToMap(releaseFile, location)
-    println "content of release file is: ${releaseContent}"
-    return releaseContent
+    def content = yamlToMap(releaseFile, location)
+    println "content of release file is: ${content}"
+    return content
 }
 
-def writeToReleaseFile(def majorVer, def minorVer, def releaseContent, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
+def writeToReleaseFile(def majorVer, def minorVer, def content, def location="/ceph/cephci-jenkins/latest-rhceph-container-info"){
     /*
         Method write content from the release yaml file and unset the lock.
     */
     def releaseFile = "RHCEPH-${majorVer}.${minorVer}.yaml"
-    writeYaml file: "${location}/${releaseFile}", data: releaseContent, overwrite: true
+    writeYaml file: "${location}/${releaseFile}", data: content, overwrite: true
     unSetLock(majorVer, minorVer)
 }
 
