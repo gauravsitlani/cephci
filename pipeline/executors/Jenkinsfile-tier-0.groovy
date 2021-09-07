@@ -65,7 +65,7 @@ node(nodeName) {
            Read the release yaml contents to get contents,
            before other listener/Executo Jobs updates it.
         */
-        releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
+//         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildPhase, tierLevel, testResults)
     }
 
