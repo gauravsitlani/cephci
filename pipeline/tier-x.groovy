@@ -87,7 +87,7 @@ node(nodeName) {
             releaseContent[tierLevel]["last-run"] = releaseContent[buildPhase]["ceph-version"]
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
         }
-        sharedLib.sendGChatNotification(testResults, buildPhase)
+//         sharedLib.sendGChatNotification(testResults, buildPhase)
         sharedLib.sendEMail(testResults, buildArtifactsDetails(), buildPhase)
     }
 
