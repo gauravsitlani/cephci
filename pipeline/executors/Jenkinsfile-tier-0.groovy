@@ -65,7 +65,7 @@ node(nodeName) {
            Read the release yaml contents to get contents,
            before other listener/Executo Jobs updates it.
         */
-        releaseContent = sharedLib.ReadFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
+        releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildPhase, tierLevel, testResults)
     }
 
@@ -77,10 +77,10 @@ node(nodeName) {
 
         if ( ! (sharedLib.failStatus in testResults.values()) ) {
             emailTo = "ceph-qe-list@redhat.com"
-            releaseContent = sharedLib.ReadFromReleaseFile(majorVersion, minorVersion)
+            releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
             releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
             releaseContent[tierLevel]["last-run"] = releaseContent[buildPhase]["ceph-version"]
-            sharedLib.WriteToReleaseFile(majorVersion, minorVersion, releaseContent)
+            sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
         }
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
         sharedLib.sendEMail(testResults, buildArtifactsDetails(), tierLevel)
