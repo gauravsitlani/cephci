@@ -100,7 +100,7 @@ node(nodeName) {
         
 
 //         sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
-        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,preTierValue), buildPhase.capitalize())
+        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,preTierLevel), buildPhase.capitalize())
     }
 
     stage('Publish UMB') {
