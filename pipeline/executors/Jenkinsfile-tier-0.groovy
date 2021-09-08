@@ -91,16 +91,13 @@ node(nodeName) {
                     "${tierLevel}": [
                         "ceph-version": releaseContent[buildPhase]["ceph-version"],
                         "composes": releaseContent[buildPhase]["composes"]]]
-                
+                releaseContent += updateContent
                 println updateContent
 
-//                 if (releaseContent[buildPhase]["repository"]){
-//                     def repo = ["repository": releaseContent[buildPhase]["repository"]]
-//                     println updateContent.tierLevel
-//                     updateContent.tierLevel += repo
-//                     println "content2: ${updateContent}"
-//                 }
-                releaseContent += updateContent
+                if (releaseContent[buildPhase]["repository"]){
+                    def repo = ["repository": releaseContent[buildPhase]["repository"]]
+                    releaseContent.tierLevel += repo
+                }
             }
             
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
@@ -156,7 +153,7 @@ node(nodeName) {
         sharedLib.SendUMBMessage(
             artifactsMap,
             "VirtualTopic.qe.ci.rhcephqe.product-build.test.complete",
-            "tier0testingdone",
+            "Tier0TestingDone",
         )
     }
 
