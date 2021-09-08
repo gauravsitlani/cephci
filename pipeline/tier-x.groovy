@@ -77,13 +77,20 @@ node(nodeName) {
 
         if ( ! ("FAIL" in testResults.values()) ) {
             def latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
-            if (latestContent.containsKey(buildPhase)){
-                latestContent[buildPhase] = releaseContent[preTierLevel]
+            if (releaseContent.containsKey(preTierLevel)){
+                if (latestContent.containsKey(buildPhase)){
+                    latestContent[buildPhase] = releaseContent[preTierLevel]
+                }
+                else {
+                    def updateContent = ["${buildPhase}": releaseContent[preTierLevel]]
+                    latestContent += updateContent
+                }
             }
-            else {
-                def updateContent = ["${buildPhase}": releaseContent[preTierLevel]]
-                latestContent += updateContent
+            else{
+                sharedLib.unSetLock(majorVersion, minorVersion)
+                error "No data found for pre tier level: ${preTierLevel}"
             }
+            
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
             println "latest content is:"
             println latestContent
