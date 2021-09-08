@@ -66,20 +66,15 @@ node(nodeName) {
 
     stage('Publish Results') {
         /* Publish results through E-mail and Google Chat */
-        def emailTo = "ceph-qe@redhat.com"
 
         if ( ! ("FAIL" in testResults.values()) ) {
             latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
-            println "release content2 is :"
-            println releaseContent
             if (latestContent.containsKey(tierLevel)){
                 latestContent[tierLevel] = releaseContent[buildPhase]
-            }
-            
+            }        
             else{
                 println "else part"
-                def updateContent = [
-                    "${tierLevel}": releaseContent[buildPhase]]
+                def updateContent = ["${tierLevel}": releaseContent[buildPhase]]
                 println "update content is:"
                 println updateContent
                 latestContent += updateContent
