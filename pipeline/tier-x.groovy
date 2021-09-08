@@ -100,7 +100,7 @@ node(nodeName) {
                 "name": "Red Hat Ceph Storage",
                 "version": ciMap["artifact"]["version"],
                 "nvr": ciMap["artifact"]["nvr"],
-                "phase": posttierLevel,
+                "phase": postTierLevel,
             ],
             "contact": [
                 "name": "Downstream Ceph QE",
