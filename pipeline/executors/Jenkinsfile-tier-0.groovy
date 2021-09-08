@@ -77,7 +77,8 @@ node(nodeName) {
                 def updateContent = ["${tierLevel}": releaseContent[buildPhase]]
                 println "update content is:"
                 println updateContent
-                latestContent += updateContent}
+                latestContent += updateContent
+            }
             println "latestContent is:"
             println latestContent
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
