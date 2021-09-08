@@ -67,6 +67,8 @@ node(nodeName) {
         */
         sharedLib.unSetLock(majorVersion, minorVersion)
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
+        println "release content1 is :"
+        println releaseContent
         testStages = sharedLib.fetchStages(buildPhase, tierLevel, testResults)
     }
 
@@ -78,6 +80,8 @@ node(nodeName) {
 
         if ( ! ("FAIL" in testResults.values()) ) {
             releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
+            println "release content2 is :"
+            println releaseContent
             if (releaseContent[tierLevel]){
                 releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
                 releaseContent[tierLevel]["last-run"] = releaseContent[tierLevel]["ceph-version"]
@@ -92,7 +96,7 @@ node(nodeName) {
                         "ceph-version": releaseContent[buildPhase]["ceph-version"],
                         "composes": releaseContent[buildPhase]["composes"]]]
                 releaseContent += updateContent
-                println "release content is:"
+                println "release content3 is :"
                 println releaseContent
                 println "tier content is:"
                 println releaseContent[tierLevel]
