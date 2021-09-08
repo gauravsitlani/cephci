@@ -358,6 +358,10 @@ def fetchStages(def scriptArg, def tierLevel, def testResults) {
 
 def buildArtifactsDetails(def content, def ciMsgMap, def phase) {
     /* Return artifacts details using release content */
+    println "content is:"
+    println content
+    println "phase is:"
+    println phase
     return [
         "composes": content[phase]["composes"],
         "product": "Red Hat Ceph Storage",
