@@ -85,7 +85,7 @@ node(nodeName) {
         }
         
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
-        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildPhase), tierLevel.capitalize()())
+        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildPhase), tierLevel.capitalize())
     }
 
     stage('Publish UMB') {
