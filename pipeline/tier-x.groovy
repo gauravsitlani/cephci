@@ -85,9 +85,10 @@ node(nodeName) {
                 latestContent += updateContent
             }
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
+            println "latest content is:"
+            println latestContent
         }
-        println "latest content is:"
-        println latestContent
+        
 
 //         sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
         sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,preTierValue), buildPhase.capitalize())
