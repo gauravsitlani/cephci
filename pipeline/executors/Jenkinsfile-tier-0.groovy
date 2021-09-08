@@ -76,7 +76,6 @@ node(nodeName) {
         def emailTo = "ceph-qe@redhat.com"
 
         if ( ! ("FAIL" in testResults.values()) ) {
-            sharedLib.unSetLock(majorVersion, minorVersion)
             releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
             if (releaseContent[tierLevel]){
                 releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
@@ -92,7 +91,8 @@ node(nodeName) {
                         "ceph-version": releaseContent[buildPhase]["ceph-version"],
                         "composes": releaseContent[buildPhase]["composes"]]]
                 releaseContent += updateContent
-                println updateContent
+                println "release content is:"
+                println releaseContent
 
                 if (releaseContent[buildPhase]["repository"]){
                     def repo = ["repository": releaseContent[buildPhase]["repository"]]
@@ -100,20 +100,18 @@ node(nodeName) {
                 }
             }
             
-            sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
-            
-            
+            sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)            
             
         }
-        def artifactData = [
-            "composes": releaseContent[buildPhase]["composes"],
-            "product": "Red Hat Ceph Storage",
-            "version": ciMap["artifact"]["nvr"],
-            "ceph_version": releaseContent[buildPhase]["ceph-version"],
-            "container_image": releaseContent[buildPhase]["repository"]]
+//         def artifactData = [
+//             "composes": releaseContent[buildPhase]["composes"],
+//             "product": "Red Hat Ceph Storage",
+//             "version": ciMap["artifact"]["nvr"],
+//             "ceph_version": releaseContent[buildPhase]["ceph-version"],
+//             "container_image": releaseContent[buildPhase]["repository"]]
         
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
-        sharedLib.sendEmail(testResults, artifactData, tierLevel)
+        sharedLib.sendEmail(testResults, buildArtifactsDetails(releaseContent, ciMap, buildPhase), tierLevel)
     }
 
     stage('Publish UMB') {
