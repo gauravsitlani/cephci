@@ -18,18 +18,17 @@ def minorVersion
 node(nodeName) {
 
     timeout(unit: "MINUTES", time: 30) {
-        stage('Install Prereq') {
+        stage('Install prereq') {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: 'refs/remotes/origin/testing_generic']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[
-                    $class: 'SubmoduleOption',
-                    disableSubmodules: false,
-                    parentCredentials: false,
-                    recursiveSubmodules: true,
+                    $class: 'CloneOption',
+                    shallow: true,
+                    noTags: false,
                     reference: '',
-                    trackingSubmodules: false
+                    depth: 0
                 ]],
                 submoduleCfg: [],
                 userRemoteConfigs: [[
@@ -37,9 +36,9 @@ node(nodeName) {
                 ]]
             ])
 
-            // prepare the node for executing test suites
-            sharedLib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
-            sharedLib.prepareNode()
+            // prepare the node
+            lib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
+            lib.prepareNode()
         }
     }
 
