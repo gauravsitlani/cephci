@@ -100,7 +100,7 @@ node(nodeName) {
                 if (releaseContent[buildPhase]["repository"]){
                     println "if repo part"
                     def repo = ["repository": releaseContent[buildPhase]["repository"]]
-                    releaseContent[tierLevel] += repo
+                    releaseContent["${tierLevel}"] += repo
                 }
             }
             
