@@ -37,8 +37,8 @@ node(nodeName) {
             ])
 
             // prepare the node
-            lib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
-            lib.prepareNode()
+            sharedLib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
+            sharedLib.prepareNode()
         }
     }
 
