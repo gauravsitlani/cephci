@@ -72,7 +72,7 @@ node(nodeName) {
             latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
             println "release content2 is :"
             println releaseContent
-            if (latestContent.containsKey(tierLevel){
+            if (latestContent.containsKey(tierLevel)){
                 latestContent[tierLevel] = releaseContent[buildPhase]
             }
             
