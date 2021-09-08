@@ -14,16 +14,6 @@ def sharedLib
 def majorVersion
 def minorVersion
 
-// def buildArtifactsDetails() {
-//     /* Return artifacts details using release content */
-//     return [
-//         "composes": releaseContent[buildPhase]["composes"],
-//         "product": "Red Hat Ceph Storage",
-//         "version": ciMap["artifact"]["nvr"],
-//         "ceph_version": releaseContent[buildPhase]["ceph-version"],
-//         "container_image": releaseContent[buildPhase]["repository"]
-//     ]
-// }
 
 node(nodeName) {
 
@@ -79,35 +69,23 @@ node(nodeName) {
         def emailTo = "ceph-qe@redhat.com"
 
         if ( ! ("FAIL" in testResults.values()) ) {
-            releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
+            latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
             println "release content2 is :"
             println releaseContent
-            if (releaseContent[tierLevel]){
-                releaseContent[tierLevel]["composes"] = releaseContent[buildPhase]["composes"]
-                releaseContent[tierLevel]["last-run"] = releaseContent[tierLevel]["ceph-version"]
-                releaseContent[tierLevel]["ceph-version"] = releaseContent[buildPhase]["ceph-version"]
-                if (releaseContent[buildPhase]["repository"]){releaseContent[tierLevel]["repository"] = releaseContent[buildPhase]["repository"]}
+            if (latestContent.containsKey(tierLevel){
+                latestContent[tierLevel] = releaseContent[buildPhase]
             }
             
             else{
                 println "else part"
                 def updateContent = [
-                    "${tierLevel}": [
-                        "ceph-version": releaseContent[buildPhase]["ceph-version"],
-                        "composes": releaseContent[buildPhase]["composes"]]]
-                releaseContent += updateContent
-                println "release content3 is :"
-                println releaseContent
-                println "tier content is:"
-                println releaseContent[tierLevel]
-
-                if (releaseContent[buildPhase]["repository"]){
-                    println "if repo part"
-                    def repo = ["repository": releaseContent[buildPhase]["repository"]]
-                    releaseContent["${tierLevel}"] += repo
-                }
+                    "${tierLevel}": releaseContent[buildPhase]]
+                println "update content is:"
+                println updateContent
+                latestContent += updateContent
             }
-            
+            println "latestContent is:"
+            println latestContent
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)            
             
         }
