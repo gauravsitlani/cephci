@@ -56,6 +56,8 @@ node(nodeName) {
            before other listener/Executor Jobs updates it.
         */
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
+        println "release content is:"
+        println releaseContent
         testStages = sharedLib.fetchStages(buildPhase, buildPhase, testResults)
     }
 
