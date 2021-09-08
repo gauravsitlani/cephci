@@ -73,7 +73,7 @@ node(nodeName) {
         println "pretierlevel is:"
         println preTierLevel
         println "posttierlevel is:"
-        println posttierLevel
+        println postTierLevel
 
         if ( ! ("FAIL" in testResults.values()) ) {
             def latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
