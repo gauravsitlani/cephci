@@ -65,6 +65,7 @@ node(nodeName) {
            Read the release yaml contents to get contents,
            before other listener/Executo Jobs updates it.
         */
+        sharedLib.unSetLock(majorVersion, minorVersion)
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildPhase, tierLevel, testResults)
     }
@@ -111,7 +112,7 @@ node(nodeName) {
 //             "container_image": releaseContent[buildPhase]["repository"]]
         
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
-        sharedLib.sendEmail(testResults, buildArtifactsDetails(releaseContent, ciMap, buildPhase), tierLevel)
+        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildPhase), tierLevel)
     }
 
     stage('Publish UMB') {
