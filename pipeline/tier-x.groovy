@@ -69,6 +69,12 @@ node(nodeName) {
         posttierLevel = buildPhaseValue[0]+"-"+tierValue
         def preTierValue = buildPhaseValue[1].toInteger()-1
         def preTierLevel = buildPhaseValue[0]+"-"+tierValue
+        println "buildphase is:"
+        println buildPhase
+        println "pretierlevel is:"
+        println preTierLevel
+        println "posttierlevel is:"
+        println posttierLevel
 
         if ( ! ("FAIL" in testResults.values()) ) {
             def latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
