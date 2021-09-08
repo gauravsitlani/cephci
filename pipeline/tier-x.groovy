@@ -12,8 +12,7 @@ def ciMap
 def sharedLib
 def majorVersion
 def minorVersion
-def tierLevel
-def posttierLevel
+def postTierLevel
 def msgType
 
 
@@ -65,10 +64,10 @@ node(nodeName) {
     stage('Publish Results') {
         /* Publish results through E-mail and Google Chat */
         def buildPhaseValue = buildPhase.split("-")
-        def tierValue = buildPhaseValue[1].toInteger()+1
-        posttierLevel = buildPhaseValue[0]+"-"+tierValue
+        def postTierValue = buildPhaseValue[1].toInteger()+1
+        postTierLevel = buildPhaseValue[0]+"-"+postTierValue
         def preTierValue = buildPhaseValue[1].toInteger()-1
-        def preTierLevel = buildPhaseValue[0]+"-"+tierValue
+        def preTierLevel = buildPhaseValue[0]+"-"+preTierValue
         println "buildphase is:"
         println buildPhase
         println "pretierlevel is:"
