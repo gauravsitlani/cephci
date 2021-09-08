@@ -6,7 +6,7 @@
 def nodeName = "centos-7"
 def testStages = [:]
 def testResults = [:]
-def releaseContent
+def releaseContent = [:]
 def buildPhase
 def ciMap
 def sharedLib
