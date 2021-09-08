@@ -13,6 +13,8 @@ def sharedLib
 def majorVersion
 def minorVersion
 def tierLevel
+def posttierLevel
+def msgType
 
 
 node(nodeName) {
@@ -37,11 +39,11 @@ node(nodeName) {
             ])
 
             // prepare the node
-            lib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
-            lib.prepareNode()
+            sharedLib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
+            sharedLib.prepareNode()
         }
     }
-
+    
     stage('Prepare-Stages') {
         /* Prepare pipeline stages using RHCEPH version */
         ciMap = sharedLib.getCIMessageMap()
@@ -49,38 +51,39 @@ node(nodeName) {
         def rhcsVersion = sharedLib.getRHCSVersionFromArtifactsNvr()
         majorVersion = rhcsVersion["major_version"]
         minorVersion = rhcsVersion["minor_version"]
-        
-        println "versions:"
-        println majorVersion
-        println minorVersion
 
         /*
            Read the release yaml contents to get contents,
-           before other listener/Executo Jobs updates it.
+           before other listener/Executor Jobs updates it.
         */
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildPhase, buildPhase, testResults)
     }
 
     parallel testStages
-
+    
     stage('Publish Results') {
         /* Publish results through E-mail and Google Chat */
         def buildPhaseValue = buildPhase.split("-")
         def tierValue = buildPhaseValue[1].toInteger()+1
-        def tierLevel = buildPhaseValue[0]+"-"+tierValue
-
+        posttierLevel = buildPhaseValue[0]+"-"+tierValue
         def preTierValue = buildPhaseValue[1].toInteger()-1
         def preTierLevel = buildPhaseValue[0]+"-"+tierValue
 
-        if ( ! (sharedLib.failStatus in testResults.values()) ) {
-            releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
-            releaseContent[buildPhase]["composes"] = releaseContent[preTierLevel]["composes"]
-            releaseContent[buildPhase]["last-run"] = releaseContent[preTierLevel]["ceph-version"]
-            sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
+        if ( ! ("FAIL" in testResults.values()) ) {
+            def latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
+            if (latestContent.containsKey(buildPhase)){
+                latestContent[buildPhase] = releaseContent[preTierLevel]
+            }
+            else {
+                def updateContent = ["${buildPhase}": releaseContent[preTierLevel]]
+                latestContent += updateContent
+            }
+            sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
         }
-//         sharedLib.sendGChatNotification(testResults, buildPhase)
-        sharedLib.sendEMail(testResults, buildArtifactsDetails(), buildPhase)
+
+        sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
+        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,preTierValue), buildPhase.capitalize())
     }
 
     stage('Publish UMB') {
@@ -92,7 +95,7 @@ node(nodeName) {
                 "name": "Red Hat Ceph Storage",
                 "version": ciMap["artifact"]["version"],
                 "nvr": ciMap["artifact"]["nvr"],
-                "phase": tierLevel,
+                "phase": posttierLevel,
             ],
             "contact": [
                 "name": "Downstream Ceph QE",
@@ -108,7 +111,8 @@ node(nodeName) {
                 "log": "${env.BUILD_URL}/console",
             ]
         ]
-        def msgType = buildPhaseValue[0]+buildPhaseValue[1]+"testingdone"
+        if (buildPhase == "tier-2"){msgType = "Tier2ValidationTestingDone"}
+        else {msgType = buildPhaseValue[0].capitalize()+buildPhaseValue[1]+"TestingDone"}
         def msgContent = writeJSON returnText: true, json: artifactsMap
         println "${msgContent}"
 
