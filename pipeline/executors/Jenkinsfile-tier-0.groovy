@@ -94,6 +94,8 @@ node(nodeName) {
                 releaseContent += updateContent
                 println "release content is:"
                 println releaseContent
+                println "tier content is:"
+                println releaseContent[tierLevel]
 
                 if (releaseContent[buildPhase]["repository"]){
                     println "if repo part"
