@@ -82,7 +82,7 @@ node(nodeName) {
             sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
         }
 
-        sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
+//         sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
         sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,preTierValue), buildPhase.capitalize())
     }
 
