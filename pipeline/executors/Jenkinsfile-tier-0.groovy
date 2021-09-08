@@ -86,15 +86,7 @@ node(nodeName) {
             }
             println "latestContent is:"
             println latestContent
-            sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)            
-            
-        }
-//         def artifactData = [
-//             "composes": releaseContent[buildPhase]["composes"],
-//             "product": "Red Hat Ceph Storage",
-//             "version": ciMap["artifact"]["nvr"],
-//             "ceph_version": releaseContent[buildPhase]["ceph-version"],
-//             "container_image": releaseContent[buildPhase]["repository"]]
+            sharedLib.writeToReleaseFile(majorVersion, minorVersion, releaseContent)
         
 //         sharedLib.sendGChatNotification(testResults, tierLevel)
         sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildPhase), tierLevel)
