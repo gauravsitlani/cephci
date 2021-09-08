@@ -14,6 +14,7 @@ def majorVersion
 def minorVersion
 def postTierLevel
 def msgType
+def buildPhaseValue
 
 
 node(nodeName) {
@@ -65,7 +66,7 @@ node(nodeName) {
     
     stage('Publish Results') {
         /* Publish results through E-mail and Google Chat */
-        def buildPhaseValue = buildPhase.split("-")
+        buildPhaseValue = buildPhase.split("-")
         def postTierValue = buildPhaseValue[1].toInteger()+1
         postTierLevel = buildPhaseValue[0]+"-"+postTierValue
         def preTierValue = buildPhaseValue[1].toInteger()-1
