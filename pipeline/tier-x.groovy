@@ -6,7 +6,7 @@
 def nodeName = "centos-7"
 def testStages = [:]
 def testResults = [:]
-def releaseContent
+def releaseContent = [:]
 def buildPhase
 def ciMap
 def sharedLib
@@ -14,32 +14,21 @@ def majorVersion
 def minorVersion
 def tierLevel
 
-def buildArtifactsDetails() {
-    /* Return artifacts details using release content */
-    return [
-        "composes": releaseContent[buildPhase]["composes"],
-        "product": "Red Hat Ceph Storage",
-        "version": ciMap["artifact"]["nvr"],
-        "ceph_version": releaseContent[buildPhase]["ceph-version"],
-        "container_image": releaseContent[buildPhase]["repository"]
-    ]
-}
 
 node(nodeName) {
 
     timeout(unit: "MINUTES", time: 30) {
-        stage('Install Prereq') {
+        stage('Install prereq') {
             checkout([
                 $class: 'GitSCM',
                 branches: [[name: 'refs/remotes/origin/testing_executor']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[
-                    $class: 'SubmoduleOption',
-                    disableSubmodules: false,
-                    parentCredentials: false,
-                    recursiveSubmodules: true,
+                    $class: 'CloneOption',
+                    shallow: true,
+                    noTags: false,
                     reference: '',
-                    trackingSubmodules: false
+                    depth: 0
                 ]],
                 submoduleCfg: [],
                 userRemoteConfigs: [[
@@ -47,9 +36,9 @@ node(nodeName) {
                 ]]
             ])
 
-            // prepare the node for executing test suites
-            sharedLib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
-            sharedLib.prepareNode()
+            // prepare the node
+            lib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
+            lib.prepareNode()
         }
     }
 
