@@ -357,4 +357,15 @@ def fetchStages(def scriptArg, def tierLevel, def testResults) {
     return testStages
 }
 
+def buildArtifactsDetails(def content, def ciMsgMap, def phase) {
+    /* Return artifacts details using release content */
+    return [
+        "composes": content[phase]["composes"],
+        "product": "Red Hat Ceph Storage",
+        "version": ciMsgMap["artifact"]["nvr"],
+        "ceph_version": content[phase]["ceph-version"],
+        "container_image": content[phase]["repository"]
+    ]
+}
+
 return this;
