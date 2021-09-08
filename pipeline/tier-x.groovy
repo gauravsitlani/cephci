@@ -126,7 +126,7 @@ node(nodeName) {
                 "type": buildPhase,
                 "result": currentBuild.currentResult,
                 "url": env.BUILD_URL,
-                "log": "${env.BUILD_URL}/console",
+                "log": "${env.BUILD_URL}console",
             ]
         ]
         if (buildPhase == "tier-2"){msgType = "Tier2ValidationTestingDone"}
