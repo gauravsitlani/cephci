@@ -1,13 +1,13 @@
 /*
-    Pipeline script for executing Tier 0 test suites for RH Ceph Storage.
+    Pipeline script for executing Tier x test suites for RH Ceph Storage.
 */
-// Global variables section
 
 def nodeName = "centos-7"
 def testStages = [:]
 def testResults = [:]
 def releaseContent = [:]
 def buildPhase
+def buildType
 def ciMap
 def sharedLib
 def majorVersion
@@ -23,7 +23,7 @@ node(nodeName) {
         stage('Install prereq') {
             checkout([
                 $class: 'GitSCM',
-                branches: [[name: 'refs/remotes/origin/testing_executor']],
+                branches: [[name: '*/master']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[
                     $class: 'CloneOption',
@@ -43,11 +43,14 @@ node(nodeName) {
             sharedLib.prepareNode()
         }
     }
-    
+
     stage('Prepare-Stages') {
         /* Prepare pipeline stages using RHCEPH version */
         ciMap = sharedLib.getCIMessageMap()
         buildPhase = ciMap["artifact"]["phase"]
+        buildType = ciMap["test-run"]["type"]
+        println "build type is:"
+        println buildType
         def rhcsVersion = sharedLib.getRHCSVersionFromArtifactsNvr()
         majorVersion = rhcsVersion["major_version"]
         minorVersion = rhcsVersion["minor_version"]
@@ -57,51 +60,39 @@ node(nodeName) {
            before other listener/Executor Jobs updates it.
         */
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
-        println "release content is:"
-        println releaseContent
-        testStages = sharedLib.fetchStages(buildPhase, buildPhase, testResults)
+        testStages = sharedLib.fetchStages(buildType, buildPhase, testResults)
     }
 
     parallel testStages
-    
+
     stage('Publish Results') {
         /* Publish results through E-mail and Google Chat */
         buildPhaseValue = buildPhase.split("-")
         def postTierValue = buildPhaseValue[1].toInteger()+1
         postTierLevel = buildPhaseValue[0]+"-"+postTierValue
-        def preTierValue = buildPhaseValue[1].toInteger()-1
-        def preTierLevel = buildPhaseValue[0]+"-"+preTierValue
-        println "buildphase is:"
-        println buildPhase
-        println "pretierlevel is:"
-        println preTierLevel
-        println "posttierlevel is:"
-        println postTierLevel
 
         if ( ! ("FAIL" in testResults.values()) ) {
             def latestContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion)
-            if (releaseContent.containsKey(preTierLevel)){
+            if (releaseContent.containsKey(buildType)){
                 if (latestContent.containsKey(buildPhase)){
-                    latestContent[buildPhase] = releaseContent[preTierLevel]
+                    latestContent[buildPhase] = releaseContent[buildType]
                 }
                 else {
-                    def updateContent = ["${buildPhase}": releaseContent[preTierLevel]]
+                    def updateContent = ["${buildPhase}": releaseContent[buildType]]
                     latestContent += updateContent
                 }
             }
             else{
                 sharedLib.unSetLock(majorVersion, minorVersion)
-                error "No data found for pre tier level: ${preTierLevel}"
+                error "No data found for pre tier level: ${buildType}"
             }
-            
-            sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
-            println "latest content is:"
-            println latestContent
-        }
-        
 
-//         sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
-        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,preTierLevel), buildPhase.capitalize())
+            sharedLib.writeToReleaseFile(majorVersion, minorVersion, latestContent)
+            println "latest content is: ${latestContent}"
+        }
+
+        sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
+        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildType), buildPhase.capitalize())
     }
 
     stage('Publish UMB') {
