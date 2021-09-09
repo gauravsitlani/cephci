@@ -9,5 +9,5 @@ def fetch_ceph_version(
     )
     ceph_version = re.search(r"ceph-common-(.*?).x86", ceph_pkgs.text).group(1)
     print(f"ceph_version is: {ceph_version}")
-
+    return ceph_version
   
