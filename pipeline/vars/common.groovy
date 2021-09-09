@@ -3,7 +3,7 @@
     Common groovy methods that can be reused by the pipeline jobs.
 */
 
-import org.jsoup.Jsoup
+// import org.jsoup.Jsoup
 
 def prepareNode() {
     /*
@@ -114,7 +114,7 @@ def fetchCephVersion(def baseUrl){
 //     }
 //     return cephVer[0]
     def task = "${env.WORKSPACE}/.venv/bin/python test.py".execute()
-    #task.waitFor()
+//     task.waitFor()
     println task.text
 }
 
