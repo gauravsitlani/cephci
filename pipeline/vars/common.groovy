@@ -104,15 +104,18 @@ def fetchCephVersion(def baseUrl){
     /*
         Fetches ceph version using compose base url
     */
-    baseUrl += "/compose/Tools/x86_64/os/Packages/"
-    println baseUrl
-    def document = Jsoup.connect(baseUrl).get().toString()
-    def cephVer = document.findAll(/"ceph-common-([\w.-]+)\.([\w.-]+)"/)[0].findAll(/([\d]+)\.([\d]+)\.([\d]+)\-([\d]+)/)
-    println cephVer
-    if (! cephVer){
-        error "ceph version not found.."
-    }
-    return cephVer[0]
+//     baseUrl += "/compose/Tools/x86_64/os/Packages/"
+//     println baseUrl
+//     def document = Jsoup.connect(baseUrl).get().toString()
+//     def cephVer = document.findAll(/"ceph-common-([\w.-]+)\.([\w.-]+)"/)[0].findAll(/([\d]+)\.([\d]+)\.([\d]+)\-([\d]+)/)
+//     println cephVer
+//     if (! cephVer){
+//         error "ceph version not found.."
+//     }
+//     return cephVer[0]
+    def task = "${env.WORKSPACE}/.venv/bin/python test.py".execute()
+    #task.waitFor()
+    println task.text
 }
 
 def setLock(def majorVer, def minorVer){
