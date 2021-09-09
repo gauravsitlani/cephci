@@ -113,9 +113,9 @@ def fetchCephVersion(def baseUrl){
 //         error "ceph version not found.."
 //     }
 //     return cephVer[0]
-    def task = "${env.WORKSPACE}/.venv/bin/python test.py".execute()
-//     task.waitFor()
-    println task.text
+    def cmd = "${env.WORKSPACE}/.venv/bin/python test.py"
+    def version = sh(script: "PYTHONUNBUFFERED=1 ${cmd}")
+    println "version is : ${version}"
 }
 
 def setLock(def majorVer, def minorVer){
