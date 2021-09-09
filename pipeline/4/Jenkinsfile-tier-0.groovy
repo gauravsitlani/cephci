@@ -129,7 +129,7 @@ node(nodeName) {
 //         def content = ['latest':['ceph-version':'14.2.122-190', 	
 //                        'repository':'registry-proxy.engineering.redhat.com/rh-osbs/rhceph:ceph-4.2-rhel-8-containers-candidate-21853-20210824055854']]
 //         sharedLib.WriteToReleaseFile('4', '3', content)
-        def value1 = sharedLib.fetchCephVersion("http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.2-rhel-8/RHCEPH-4.2-RHEL-8-20210824.ci.1")
+        def value1 = sharedLib.fetchCephVersion("http://download.eng.bos.redhat.com/rhel-8/composes/auto/ceph-4.3-rhel-8/RHCEPH-4.3-RHEL-8-20210908.ci.1")
         println value1
 //         def msgMap = [
 //         "BUILD_URL" : env.BUILD_URL,
