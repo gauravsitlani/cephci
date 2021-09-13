@@ -65,6 +65,7 @@ node(nodeName) {
         
     }
     if (!testStages){
+        currentBuild.result = "ABORTED"
         println "No test stages found.."
     }
     else{
