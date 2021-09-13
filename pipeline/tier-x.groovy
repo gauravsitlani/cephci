@@ -62,15 +62,14 @@ node(nodeName) {
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildType, buildPhase, testResults)
         println "test stages are: ${testStages}"
+        if (!testStages){
+            currentBuild.result = "ABORTED"
+            println "No test stages found.."
+        }
         
     }
-    if (!testStages){
-        currentBuild.result = "ABORTED"
-        println "No test stages found.."
-    }
-    else{
-        parallel testStages
-    }
+    
+    parallel testStages
     
 
     stage('Publish Results') {
