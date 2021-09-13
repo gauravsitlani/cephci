@@ -340,14 +340,17 @@ def fetchStages(def scriptArg, def tierLevel, def testResults) {
     
     def testStages = [:]
     def scriptFiles = sh (returnStdout: true, script: "ls ${scriptPath}*.sh | cat")
-    def fileNames = scriptFiles.split("\\n")
-
-    for (filePath in fileNames) {
-        def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
-
-        testStages[fileName] = {
-            stage(fileName) {
-                testResults[fileName] = executeTestScript(filePath, scriptArg)
+    if (scriptFiles)
+    {
+        def fileNames = scriptFiles.split("\\n")
+    
+        for (filePath in fileNames) {
+            def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
+    
+            testStages[fileName] = {
+                stage(fileName) {
+                    testResults[fileName] = executeTestScript(filePath, scriptArg)
+                }
             }
         }
     }
