@@ -61,6 +61,11 @@ node(nodeName) {
         */
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildType, buildPhase, testResults)
+        if ( !testStages ){
+            println "No test stage found.."
+            return
+
+        }
     }
 
     parallel testStages
