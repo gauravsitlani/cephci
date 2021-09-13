@@ -61,9 +61,10 @@ node(nodeName) {
         */
         releaseContent = sharedLib.readFromReleaseFile(majorVersion, minorVersion, lockFlag=false)
         testStages = sharedLib.fetchStages(buildType, buildPhase, testResults)
+        println "test stages are: ${testStages}"
         
     }
-    if (testStages){
+    if (!testStages){
         println "No test stages found.."
     }
     else{
