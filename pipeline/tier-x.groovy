@@ -26,7 +26,7 @@ node(nodeName) {
             }
             checkout([
                 $class: 'GitSCM',
-                branches: [[name: '*/master']],
+                branches: [[name: 'refs/remotes/origin/ckulal_5x_tier1']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[
                     $class: 'CloneOption',
@@ -96,7 +96,7 @@ node(nodeName) {
             println "latest content is: ${latestContent}"
         }
 
-        sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
+//         sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
         sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildType), buildPhase.capitalize())
     }
 
