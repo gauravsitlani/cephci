@@ -245,7 +245,7 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
                 Example: Tier0, Tier1, CVP..
     */
     def status = "STABLE"
-    def toList = "ceph-qe-list@redhat.com"
+    def toList = "ckulal@redhat.com"
     def body = readFile(file: "pipeline/vars/emailable-report.html")
 
     body += "<body>"
@@ -263,11 +263,12 @@ def sendEmail(def testResults, def artifactDetails, def tierLevel){
     body += "<table>"
     body += "<tr><th>Test Suite</th><th>Result</th></tr>"
     for (test in testResults) {
-        body += "<tr><td>${test.key}</td><td>${test.value}</td></tr>"
+        def test_name = test.key.replace("-", " ")
+        body += "<tr><td>${test_name.capitalize()}</td><td>${test.value}</td></tr>"
     }
     body += "</table><br /></body></html>"
     if ('FAIL' in testResults.values()){
-        toList = "ceph-qe@redhat.com"
+        toList = "ckulal@redhat.com"
         status = "UNSTABLE"}
 
     def subject = "${tierLevel} test report status of ${artifactDetails.version} is ${status}"
