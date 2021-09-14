@@ -26,7 +26,7 @@ node(nodeName) {
             }
             checkout([
                 $class: 'GitSCM',
-                branches: [[name: '*/master']],
+                branches: [[name: 'refs/remotes/origin/sh_tier1_script']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[
                     $class: 'CloneOption',
@@ -96,8 +96,8 @@ node(nodeName) {
             println "latest content is: ${latestContent}"
         }
 
-        sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
-        sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildType), buildPhase.capitalize())
+        //sharedLib.sendGChatNotification(testResults, buildPhase.capitalize())
+        //sharedLib.sendEmail(testResults, sharedLib.buildArtifactsDetails(releaseContent,ciMap,buildType), buildPhase.capitalize())
     }
 
     stage('Publish UMB') {
