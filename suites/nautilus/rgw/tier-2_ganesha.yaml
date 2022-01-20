@@ -1,0 +1,62 @@
+# Verify and run nfs-ganesha sanity tests
+---
+tests:
+  - test:
+      name: install ceph pre-requisities
+      module: install_prereq.py
+      abort-on-fail: true
+  - test:
+      name: ceph ansible
+      module: test_ansible.py
+      config:
+        ansi_config:
+          ceph_test: True
+          ceph_origin: distro
+          ceph_repository: rhcs
+          osd_scenario: lvm
+          osd_auto_discovery: False
+          journal_size: 1024
+          ceph_stable: True
+          ceph_stable_rh_storage: True
+          fetch_directory: ~/fetch
+          copy_admin_key: true
+          dashboard_enabled: False
+          ceph_conf_overrides:
+            global:
+              osd_pool_default_pg_num: 64
+              osd_default_pool_size: 2
+              osd_pool_default_pgp_num: 64
+              mon_max_pg_per_osd: 1024
+      desc: test cluster setup using ceph-ansible
+      destroy-cluster: false
+      abort-on-fail: true
+  - test:
+      name: check-ceph-health
+      module: exec.py
+      config:
+        cmd: ceph -s
+        sudo: True
+      desc: Check for ceph health debug info
+  - test:
+      name: NFS V4 test1
+      desc: Test and Verify NFS I/O Create operation
+      abort-on-fail: true
+      module: sanity_ganesha.py
+      polarion-id: CEPH-999999
+      config:
+        script-name: test_on_nfs_io.py
+        config-file-name: test_on_nfs_io_create.yaml
+        nfs-version: 4 # To be added in rgw_user.yaml
+        mount-dir: /mnt/nfs-ganesha/ # specify absolute path if using non-default mountpoint
+        cleanup-ops:
+          do-unmount: False # Default is True
+          cleanup: False # Default is True
+        test-config:
+          basedir_count: 4
+          subdir_count: 10
+          file_count: 10
+          objects_size_range:
+            min: 5
+            max: 10
+          io_op_config:
+            create: true
